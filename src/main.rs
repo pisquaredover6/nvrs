@@ -157,5 +157,5 @@ copies or substantial portions of the Software.",
 
 pub fn custom_error(message: &'static str, message_ext: String) {
     println!("! {}{}", message.red(), message_ext);
-    std::proccess::exit(1);
+    std::process::exit(1);
 }
