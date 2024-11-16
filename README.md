@@ -20,7 +20,6 @@ here's supposed to be a list of features and stuff but i'm too lazy to write all
 
 <div align='center'>
 
-*Copyright (c) 2024 Adam Perkowski*<br>
-see [LICENSE](/LICENSE)
+<sub align='center'>Copyright (c) 2024 Adam Perkowski<br>see [LICENSE](/LICENSE)</sub>
 
 </div>
