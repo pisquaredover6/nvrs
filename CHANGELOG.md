@@ -2,7 +2,7 @@
 
 All notable changes to nvrs will be documented in this file.
 
-## [upstream]
+## [0.1.0] - 2024-11-16
 
 ### 🐛 Bug Fixes
 
@@ -11,6 +11,12 @@ All notable changes to nvrs will be documented in this file.
 ### ⚙️ Refactoring
 
 - *(custom_error)* improve newline control (#1) ([05faaca](05faaca79dd1306a818864ab80ae028a0217dd1e))
+
+### ⚙️ Miscellaneous Tasks
+
+- GitHub stuff ([eda40d8](eda40d8d68c4c13d24ad2b9b0acd217c02ee889e))
+- run git-cliff on schedule ([c18f152](c18f15256d041c17f1a47e6310c08ce23fc286f2))
+- exclude `CHANGELOG.md` from `typos` ([bbdd835](bbdd83543aa49be2ca690e767d42d5572e3ee2a8))
 
 ### Other (unconventional)
 
