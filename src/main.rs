@@ -83,7 +83,7 @@ copies or substantial portions of the Software.",
                 }
             } else {
                 println!(
-                    "| {} {} -> {}",
+                    "* {} {} -> {}",
                     package.0.blue(),
                     "NONE".red(),
                     package.1.version.green()
