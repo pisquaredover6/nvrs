@@ -1,0 +1,11 @@
+[package]
+name = "nvchecker-rs"
+version = "0.1.0"
+authors = ["Adam Perkowski <adas1per@protonmail.com>"]
+license = "MIT"
+description = "New version checker for software releases 🦀"
+repository = "https://github.com/adamperkowski/nvchecker-rs"
+categories = ["cli"]
+edition = "2021"
+
+[dependencies]
