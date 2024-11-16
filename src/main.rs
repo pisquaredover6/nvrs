@@ -3,7 +3,8 @@ use colored::Colorize;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 mod api;
-mod config;
+pub mod config;
+mod verfiles;
 
 #[derive(Parser)]
 struct Cli {
@@ -70,16 +71,31 @@ copies or substantial portions of the Software.",
     } else if cli.take.is_some() {
     } else if cli.nuke.is_some() {
     } else {
-        let config = config::load(cli.custom_config);
-        for package in config.packages {
-            println!(
-                "{} {}",
-                package.0,
-                api::github::get_latest(package.1.github)
+        let config_content = config::load(cli.custom_config);
+        let (_, mut newver) = verfiles::load(config_content.__config__.clone()).unwrap();
+
+        for package in config_content.packages {
+            if let Some(pkg) = newver.data.data.iter_mut().find(|p| p.0 == &package.0) {
+                let latest = api::github::get_latest(package.1.github)
                     .await
                     .tag_name
-                    .replacen(&package.1.prefix, "", 1)
-            );
+                    .replacen(&package.1.prefix, "", 1);
+
+                if pkg.1.version != latest {
+                    println!(
+                        "* {} {} -> {}",
+                        package.0.blue(),
+                        pkg.1.version.red(),
+                        latest.green()
+                    );
+                    pkg.1.version = latest;
+                    verfiles::save(newver.clone(), false, config_content.__config__.clone()).unwrap();
+                } else {
+                    println!("DEBUG: up to date");
+                }
+            } else {
+                println!("DEBUG: not found");
+            }
         }
     }
 }

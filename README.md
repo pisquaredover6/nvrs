@@ -4,6 +4,9 @@
 new version checker for software releases 🦀<br>
 [nvchecker](https://github.com/lilydjwg/nvchecker) rewritten in Rust
 
+**it's fast!**<br>
+![ka-chow](https://media1.tenor.com/m/mMWXOkCEndoAAAAC/ka-chow-lightning-mcqueen.gif)
+
 </div>
 
 ## WIP

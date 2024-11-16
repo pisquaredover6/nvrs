@@ -1,14 +1,25 @@
 use serde::Deserialize;
 use std::{collections::HashMap, env, fs, path::Path};
 
-#[derive(Debug, Deserialize)]
+#[derive(Clone, Deserialize)]
+pub struct ConfigTable {
+    pub oldver: Option<String>,
+    pub newver: Option<String>,
+    /* proxy: Option<String>,
+    max_concurrency: Option<String>,
+    http_timeout: Option<String>,
+    keyfile: Option<String>, */
+}
+
+#[derive(Clone, Deserialize)]
 pub struct Package {
     pub github: String,
     pub prefix: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Clone, Deserialize)]
 pub struct Config {
+    pub __config__: Option<ConfigTable>,
     #[serde(flatten)]
     pub packages: HashMap<String, Package>,
 }
@@ -19,7 +30,7 @@ pub fn load(custom_path: Option<String>) -> Config {
         if config_path.exists() && config_path.is_file() {
             let content = fs::read_to_string(config_path).unwrap_or_default();
 
-            toml::from_str(&content).expect("error reading the config file")
+            toml::from_str(&content).expect("failed to read the config file")
         } else {
             crate::custom_error("specified config file not found", String::new());
         }
