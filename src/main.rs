@@ -31,6 +31,13 @@ struct Cli {
     )]
     nuke: Option<Vec<String>>,
 
+    #[arg(
+        long = "config",
+        value_name = "path",
+        help = "Override path to the config file"
+    )]
+    custom_config: Option<String>,
+
     #[arg(long, help = "Display copyright information")]
     copyright: bool,
 }
@@ -63,7 +70,7 @@ copies or substantial portions of the Software.",
     } else if cli.take.is_some() {
     } else if cli.nuke.is_some() {
     } else {
-        let config = config::load();
+        let config = config::load(cli.custom_config);
         for package in config.packages {
             println!(
                 "{} {}",

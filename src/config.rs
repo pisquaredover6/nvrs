@@ -13,7 +13,18 @@ pub struct Config {
     pub packages: HashMap<String, Package>,
 }
 
-pub fn load() -> Config {
+pub fn load(custom_path: Option<String>) -> Config {
+    if let Some(path) = custom_path {
+        let config_path = Path::new(&path);
+        if config_path.exists() && config_path.is_file() {
+            let content = fs::read_to_string(config_path).unwrap_or_default();
+
+            toml::from_str(&content).expect("error reading the config file")
+        } else {
+            crate::custom_error("specified config file not found", String::new());
+        }
+    }
+
     let config_path = Path::new("nvrs.toml");
     let config_home = format!(
         "{}/nvrs.toml",
