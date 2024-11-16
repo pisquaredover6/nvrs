@@ -1,4 +1,5 @@
 use clap::Parser;
+use colored::Colorize;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 mod config;
@@ -49,5 +50,18 @@ copies or substantial portions of the Software.",
         );
     } else if cli.cmp {
     } else if cli.packages.is_some() {
+    } else {
+        let config = config::load();
+        println!("{:#?}", config.packages.values())
     }
+}
+
+pub fn custom_error(message: &'static str, message_ext: &'static str) {
+    let mut output = format!("! {}", message.red());
+    if !message_ext.is_empty() {
+        output.push('\n');
+        output.push_str(&message_ext);
+    }
+    println!("{}", output);
+    std::process::exit(1);
 }

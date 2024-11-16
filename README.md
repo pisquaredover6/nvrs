@@ -6,6 +6,13 @@ new version checker for software releases 🦀<br>
 
 </div>
 
+## WIP
+nvrs is still a WIP
+
+features available now:
+
+planned features:
+
 ## Credits
 - [依云](https://github.com/lilydjwg) | the original [nvchecker](https://github.com/lilydjwg/nvchecker)
 - [orhun](https://github.com/orhun) | the idea
