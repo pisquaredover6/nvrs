@@ -1,11 +1,13 @@
 [package]
-name = "nvchecker-rs"
+name = "nvrs"
 version = "0.1.0"
 authors = ["Adam Perkowski <adas1per@protonmail.com>"]
 license = "MIT"
-description = "New version checker for software releases 🦀"
-repository = "https://github.com/adamperkowski/nvchecker-rs"
+description = "new version checker for software releases 🦀"
+repository = "https://github.com/adamperkowski/nvrs"
 categories = ["cli"]
 edition = "2021"
 
 [dependencies]
+clap = { version = "4.5.21", features = ["derive", "color", "error-context", "help", "std", "usage"], default-features = false }
+toml = { version = "0.8.19", features = ["parse"], default-features = false }
