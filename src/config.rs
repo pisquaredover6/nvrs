@@ -14,6 +14,7 @@ pub struct ConfigTable {
 #[derive(Clone, Deserialize)]
 pub struct Package {
     pub github: String,
+    #[serde(default)]
     pub prefix: String,
 }
 
