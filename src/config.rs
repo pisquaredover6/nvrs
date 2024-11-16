@@ -3,8 +3,8 @@ use std::{collections::HashMap, env, fs, path::Path};
 
 #[derive(Debug, Deserialize)]
 pub struct Package {
-    github: String,
-    prefix: String,
+    pub github: String,
+    pub prefix: String,
 }
 
 #[derive(Deserialize)]
@@ -37,7 +37,7 @@ pub fn load() -> Config {
     if content.is_empty() {
         crate::custom_error(
             "no config found",
-            "config file locations:\n ~/.config/nvrs.toml\n ./nvrs.toml\nmake sure the file is not empty",
+            "config file locations:\n ~/.config/nvrs.toml\n ./nvrs.toml\nmake sure the file is not empty".to_string(),
         );
     }
 

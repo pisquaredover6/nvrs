@@ -2,6 +2,7 @@ use clap::Parser;
 use colored::Colorize;
 use std::time::{SystemTime, UNIX_EPOCH};
 
+mod api;
 mod config;
 
 #[derive(Parser)]
@@ -25,14 +26,15 @@ struct Cli {
     copyright: bool,
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let cli = Cli::parse();
 
     if cli.copyright {
         let current_year = 1970
             + (SystemTime::now()
                 .duration_since(UNIX_EPOCH)
-                .expect("Time went backwards")
+                .expect("time went backwards")
                 .as_secs()
                 / (365 * 24 * 60 * 60));
 
@@ -52,11 +54,19 @@ copies or substantial portions of the Software.",
     } else if cli.packages.is_some() {
     } else {
         let config = config::load();
-        println!("{:#?}", config.packages.values())
+        for package in config.packages {
+            println!(
+                "{}",
+                api::github::get_latest(package.1.github)
+                    .await
+                    .tag_name
+                    .replacen(&package.1.prefix, "", 1)
+            );
+        }
     }
 }
 
-pub fn custom_error(message: &'static str, message_ext: &'static str) {
+pub fn custom_error(message: &'static str, message_ext: String) {
     let mut output = format!("! {}", message.red());
     if !message_ext.is_empty() {
         output.push('\n');
