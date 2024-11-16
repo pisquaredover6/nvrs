@@ -6,8 +6,8 @@ use serde::Deserialize;
 
 #[derive(Deserialize)]
 pub struct Release {
-    // pub html_url: String,
     pub tag_name: String,
+    pub html_url: String,
 }
 
 pub async fn get_latest(repo: String) -> Release {

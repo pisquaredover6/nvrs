@@ -89,12 +89,24 @@ copies or substantial portions of the Software.",
                         latest.green()
                     );
                     pkg.1.version = latest;
-                    verfiles::save(newver.clone(), false, config_content.__config__.clone()).unwrap();
-                } else {
-                    println!("DEBUG: up to date");
+                    verfiles::save(newver.clone(), false, config_content.__config__.clone())
+                        .unwrap();
                 }
             } else {
-                println!("DEBUG: not found");
+                let latest = api::github::get_latest(package.1.github).await;
+
+                let tag = latest.tag_name.replacen(&package.1.prefix, "", 1);
+
+                println!("* {} {} -> {}", package.0.blue(), "NONE".red(), tag.green());
+                newver.data.data.insert(
+                    package.0,
+                    verfiles::Package {
+                        version: tag,
+                        gitref: format!("refs/tags/{}", latest.tag_name),
+                        url: latest.html_url,
+                    },
+                );
+                verfiles::save(newver.clone(), false, config_content.__config__.clone()).unwrap();
             }
         }
     }
