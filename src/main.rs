@@ -16,11 +16,20 @@ struct Cli {
 
     #[arg(
         short = 't',
-        long = "take",
+        long,
+        value_name = "packages",
         help = "List of packages to update automatically, separated by a comma",
         value_delimiter = ','
     )]
-    packages: Option<Vec<String>>,
+    take: Option<Vec<String>>,
+
+    #[arg(
+        short = 'n',
+        long,
+        value_name = "packages",
+        help = "List of packages to delete from the config"
+    )]
+    nuke: Option<Vec<String>>,
 
     #[arg(long, help = "Display copyright information")]
     copyright: bool,
@@ -51,12 +60,14 @@ copies or substantial portions of the Software.",
             current_year
         );
     } else if cli.cmp {
-    } else if cli.packages.is_some() {
+    } else if cli.take.is_some() {
+    } else if cli.nuke.is_some() {
     } else {
         let config = config::load();
         for package in config.packages {
             println!(
-                "{}",
+                "{} {}",
+                package.0,
                 api::github::get_latest(package.1.github)
                     .await
                     .tag_name
