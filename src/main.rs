@@ -8,9 +8,17 @@ struct Cli {
     #[arg(
         short = 'c',
         long,
-        help = "Compare the newver with oldver and display differences as updates"
+        help = "Compare newver with oldver and display differences as updates"
     )]
     cmp: bool,
+
+    #[arg(
+        short = 't',
+        long = "take",
+        help = "List of packages to update automatically, separated by a comma",
+        value_delimiter = ','
+    )]
+    packages: Option<Vec<String>>,
 
     #[arg(long, help = "Display copyright information")]
     copyright: bool,
@@ -39,5 +47,7 @@ The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.",
             current_year
         );
+    } else if cli.cmp {
+    } else if cli.packages.is_some() {
     }
 }
