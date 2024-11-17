@@ -18,7 +18,7 @@ pub type ReleaseFuture =
 
 pub struct Api {
     pub name: &'static str,
-    pub func: fn(String, Vec<String>) -> ReleaseFuture,
+    pub func: fn(String, Vec<String>, String) -> ReleaseFuture,
 }
 
 pub const API_LIST: &[Api] = &[

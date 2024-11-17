@@ -1,5 +1,6 @@
 use clap::Parser;
 use colored::Colorize;
+use config::Keyfile;
 use std::sync::Mutex;
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -82,7 +83,7 @@ copies or substantial portions of the Software.",
             current_year
         );
     } else if cli.cmp {
-        let (config_content, _) = config::load(cli.custom_config);
+        let (config_content, _, _) = config::load(cli.custom_config);
         let (oldver, newver) = verfiles::load(config_content.__config__.clone()).unwrap();
 
         for package in newver.data.data {
@@ -106,7 +107,7 @@ copies or substantial portions of the Software.",
         }
     } else if cli.take.is_some() {
         let names = cli.take.unwrap();
-        let (config_content, _) = config::load(cli.custom_config);
+        let (config_content, _, _) = config::load(cli.custom_config);
         let (mut oldver, newver) = verfiles::load(config_content.__config__.clone()).unwrap();
 
         for package_name in names {
@@ -134,7 +135,7 @@ copies or substantial portions of the Software.",
         verfiles::save(oldver, true, config_content.__config__).unwrap();
     } else if cli.nuke.is_some() {
         let names = cli.nuke.unwrap();
-        let (mut config_content, config_content_path) = config::load(cli.custom_config);
+        let (mut config_content, config_content_path, _) = config::load(cli.custom_config);
         let (mut oldver, mut newver) = verfiles::load(config_content.__config__.clone()).unwrap();
 
         for package_name in names {
@@ -151,12 +152,12 @@ copies or substantial portions of the Software.",
         verfiles::save(oldver, true, config_content.__config__.clone()).unwrap();
         config::save(config_content, config_content_path).unwrap();
     } else {
-        let (config_content, _) = config::load(cli.custom_config);
+        let (config_content, _, keyfile) = config::load(cli.custom_config);
         let (_, mut newver) = verfiles::load(config_content.__config__.clone()).unwrap();
 
         for package in config_content.packages {
             if let Some(pkg) = newver.data.data.iter_mut().find(|p| p.0 == &package.0) {
-                if let Some(latest) = run_source(package.clone()).await {
+                if let Some(latest) = run_source(package.clone(), keyfile.clone()).await {
                     let latest_tag = latest.tag_name.replacen(&package.1.prefix, "", 1);
 
                     if pkg.1.version != latest_tag {
@@ -169,7 +170,7 @@ copies or substantial portions of the Software.",
                         pkg.1.version = latest_tag;
                     }
                 }
-            } else if let Some(latest) = run_source(package.clone()).await {
+            } else if let Some(latest) = run_source(package.clone(), keyfile.clone()).await {
                 let tag = latest.tag_name.replacen(&package.1.prefix, "", 1);
 
                 println!("| {} {} -> {}", package.0.blue(), "NONE".red(), tag.green());
@@ -188,10 +189,26 @@ copies or substantial portions of the Software.",
     }
 }
 
-async fn run_source(package: (String, config::Package)) -> Option<api::Release> {
+async fn run_source(
+    package: (String, config::Package),
+    keyfile: Option<Keyfile>,
+) -> Option<api::Release> {
     let source = package.1.source.clone();
     if let Some(api_used) = api::API_LIST.iter().find(|a| a.name == source) {
-        Some((api_used.func)(package.0, package.1.get_api_arg(api_used.name).unwrap()).await?)
+        let api_key = if let Some(k) = keyfile {
+            k.get_api_key(source)
+        } else {
+            String::new()
+        };
+
+        Some(
+            (api_used.func)(
+                package.0,
+                package.1.get_api_arg(api_used.name).unwrap(),
+                api_key,
+            )
+            .await?,
+        )
     } else {
         custom_error("api not found: ", source, "");
         None

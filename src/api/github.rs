@@ -1,9 +1,9 @@
 use reqwest::{
-    header::{HeaderMap, HeaderValue, ACCEPT, USER_AGENT},
+    header::{HeaderMap, HeaderValue, ACCEPT, AUTHORIZATION, USER_AGENT},
     StatusCode,
 };
 
-pub fn get_latest(package: String, repo: Vec<String>) -> crate::api::ReleaseFuture {
+pub fn get_latest(package: String, repo: Vec<String>, key: String) -> crate::api::ReleaseFuture {
     Box::pin(async move {
         let url = format!("https://api.github.com/repos/{}/releases/latest", repo[0]);
         let mut headers = HeaderMap::new();
@@ -16,6 +16,10 @@ pub fn get_latest(package: String, repo: Vec<String>) -> crate::api::ReleaseFutu
             "X-GitHub-Api-Version",
             HeaderValue::from_static("2022-11-28"),
         );
+        if !key.is_empty() {
+            let bearer = format!("Bearer {}", key);
+            headers.insert(AUTHORIZATION, HeaderValue::from_str(&bearer).unwrap());
+        }
         let client = reqwest::Client::new();
 
         let result = client.get(url).headers(headers).send().await.unwrap();

@@ -3,7 +3,7 @@ use reqwest::{
     StatusCode,
 };
 
-pub fn get_latest(package: String, _: Vec<String>) -> crate::api::ReleaseFuture {
+pub fn get_latest(package: String, _: Vec<String>, _: String) -> crate::api::ReleaseFuture {
     Box::pin(async move {
         let url = format!("https://aur.archlinux.org/rpc/v5/info/{}", package);
         let mut headers = HeaderMap::new();
