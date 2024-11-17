@@ -33,7 +33,11 @@ pub fn get_latest(package: String, _: String) -> crate::api::ReleaseFuture {
                 .unwrap_or("")
                 .replace("\"", "")
                 .to_string(),
-            html_url: first_result.get("URL").unwrap().to_string(),
+            html_url: first_result
+                .get("URL")
+                .unwrap()
+                .to_string()
+                .replace("\"", ""),
         })
     })
 }
