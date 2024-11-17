@@ -2,7 +2,7 @@
 
 All notable changes to nvrs will be documented in this file.
 
-## [upstream]
+## [0.1.1] - 2024-11-17
 
 ### 🚀 Features
 
@@ -19,6 +19,7 @@ All notable changes to nvrs will be documented in this file.
 - add a banner & move `speed` to `features` ([752fc15](https://github.com/adamperkowski/nvrs/commit/752fc158b118de603a9f2a9f31a0c320fb3cf78a))
 - add a manpage ([073c98f](https://github.com/adamperkowski/nvrs/commit/073c98ff097283fae09742c77bb98358d706bb22))
 - some `git-cliff` improvements ([270c0e6](https://github.com/adamperkowski/nvrs/commit/270c0e6b6e729a349b61a512def02433d3675cc9))
+- more `git-cliff` improvements ([83ae70f](https://github.com/adamperkowski/nvrs/commit/83ae70fd0e2820158a56a86a05aa6f619ae6b141))
 
 ### ⚡ Performance
 
