@@ -11,21 +11,22 @@ All notable changes to nvrs will be documented in this file.
 
 ### 🐛 Bug Fixes
 
-- (*ui*) wrong --cmp output characters<br><br>`|` -> `*` ([3cad4c1](https://github.com/adamperkowski/nvrs/commit/3cad4c1dd94f54c176d894e32c4f7ef384c6d8dd))
+- (*ui*) wrong --cmp output characters ([3cad4c1](https://github.com/adamperkowski/nvrs/commit/3cad4c1dd94f54c176d894e32c4f7ef384c6d8dd))
 - (*config*) make `prefix` optional ([7b942cc](https://github.com/adamperkowski/nvrs/commit/7b942cc6b9f7c5ac551837e7f53425df34ccb3a9))
 
 ### 📚 Documentation
 
 - add a banner & move `speed` to `features` ([752fc15](https://github.com/adamperkowski/nvrs/commit/752fc158b118de603a9f2a9f31a0c320fb3cf78a))
 - add a manpage ([073c98f](https://github.com/adamperkowski/nvrs/commit/073c98ff097283fae09742c77bb98358d706bb22))
+- some `git-cliff` improvements ([270c0e6](https://github.com/adamperkowski/nvrs/commit/270c0e6b6e729a349b61a512def02433d3675cc9))
 
 ### ⚡ Performance
 
-- drastically decrease bin size & increase performance<br><br>4.7M -> 1.8M<br>0.2s -> 0.02s ([460f9d9](https://github.com/adamperkowski/nvrs/commit/460f9d9bbe6928d34948ecb3eec7fd0c6c4b7ba4))
+- drastically decrease bin size & increase performance ([460f9d9](https://github.com/adamperkowski/nvrs/commit/460f9d9bbe6928d34948ecb3eec7fd0c6c4b7ba4))
 
 ### Other (unconventional)
 
-- change the `--take` character<br><br>`*` -> `+` ([0aace9d](https://github.com/adamperkowski/nvrs/commit/0aace9de0f2c3f26eda4de9491a3454929398102))
+- change the `--take` character ([0aace9d](https://github.com/adamperkowski/nvrs/commit/0aace9de0f2c3f26eda4de9491a3454929398102))
 
 ## [0.1.0] - 2024-11-16
 
@@ -35,7 +36,7 @@ All notable changes to nvrs will be documented in this file.
 
 ### ⚙️ Refactoring
 
-- (*custom_error*) improve newline control ([#1](https://github.com/adamperkowski/nvrs/issues/1))<br><br>nwm co robie ([05faaca](https://github.com/adamperkowski/nvrs/commit/05faaca79dd1306a818864ab80ae028a0217dd1e))
+- (*custom_error*) improve newline control ([#1](https://github.com/adamperkowski/nvrs/issues/1)) ([05faaca](https://github.com/adamperkowski/nvrs/commit/05faaca79dd1306a818864ab80ae028a0217dd1e))
 
 ### ⚙️ Miscellaneous Tasks
 

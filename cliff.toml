@@ -16,7 +16,7 @@ body = """
     {% for commit in commits %}
         - {% if commit.scope %}(*{{ commit.scope }}*) {% endif %}\
             {% if commit.breaking %}[**breaking**] {% endif %}\
-            {{ commit.message }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/adamperkowski/nvrs/commit/{{ commit.id }}){% if commit.remote.username %} by @{{ commit.remote.username }}{%- endif %})\
+            {{ commit.message }} ([{{ commit.id | truncate(length=7, end="") }}](<REPO>/commit/{{ commit.id }}){% if commit.remote.username %} by @{{ commit.remote.username }}{%- endif %})\
     {% endfor %}
 {% endfor %}\n
 """
@@ -25,7 +25,7 @@ footer = """
 """
 trim = true
 postprocessors = [
-  # { pattern = '<REPO>', replace = "https://github.com/orhun/git-cliff" }, # replace repository URL
+  { pattern = '<REPO>', replace = "https://github.com/adamperkowski/nvrs" },
 ]
 # render body even when there are no releases to process
 # render_always = true
@@ -39,8 +39,8 @@ filter_unconventional = false
 split_commits = false
 commit_preprocessors = [
   # Replace issue numbers
-  { pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}](https://github.com/adamperkowski/nvrs/issues/${2}))"},
-  { pattern = '\n', replace = "<br>" }
+  { pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}](<REPO>/issues/${2}))"},
+  { pattern = '\n.*', replace = "" }
   # Check spelling of the commit with https://github.com/crate-ci/typos
   # If the spelling is incorrect, it will be automatically fixed.
   #{ pattern = '.*', replace_command = 'typos --write-changes -' },
