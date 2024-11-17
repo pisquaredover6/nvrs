@@ -101,7 +101,7 @@ copies or substantial portions of the Software.",
                 if let Some(pkg) = oldver.data.data.iter_mut().find(|p| p.0 == &package_name) {
                     if pkg.1.version != package.1.version {
                         println!(
-                            "* {} {} -> {}",
+                            "+ {} {} -> {}",
                             package.0.blue(),
                             pkg.1.version.red(),
                             package.1.version.green()
