@@ -9,9 +9,10 @@ new version checker for software releases 🦀<br>
 </div>
 
 ## WIP
-nvrs is still a WIP
+nvrs is still a WIP<br>
+new features & bugfixes are being pushed every day
 
-here's supposed to be a list of features and stuff but i'm too lazy to write all that
+you may encounter some issues. please consider [submitting feedback](https://github.com/adamperkowski/nvrs/issues/new/choose) if you do.
 
 ## Features
 ### Speed
@@ -22,6 +23,12 @@ here's supposed to be a list of features and stuff but i'm too lazy to write all
 | `nvrs`        | ~ 0.09s                      | **API requests included**<br>depends on internet speed |
 | `nvrs --cmp`  | ~ 0.0008s                    | depends on disk speed                                  |
 | `nvrs --take` | ~ 0.001s                     | depends on disk speed                                  |
+
+### Sources
+**WIP**
+
+- `aur`
+- `github`
 
 ## Credits
 - [依云](https://github.com/lilydjwg) | the original [nvchecker](https://github.com/lilydjwg/nvchecker)
