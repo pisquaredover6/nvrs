@@ -1,0 +1,64 @@
+.\" manpage for nvrs
+.TH "nvrs" "1" "November 2024" "" "nvrs manual"
+
+.SH NAME
+nvrs \- fast new version checker for software releases 🦀
+
+.SH SYNOPSIS
+\fBnvrs [OPTIONS]\fR
+
+.SH DESCRIPTION
+nvrs is a new version checker for software releases
+.br
+nvchecker rewritten in Rust
+
+.SH OPTIONS
+.TP
+\fB\-c\fR, \fB\-\-cmp\fR
+Compare newver with oldver and display differences as updates
+
+.TP
+\fB\-t\fR, \fB\-\-take\fR \fI<packages>\fR
+List of packages to update automatically, separated by a comma
+
+.TP
+\fB\-n\fR, \fB\-\-nuke\fR \fI<packages>\fR
+List of packages to delete from the config, separated by a comma
+
+.TP
+\fB\-\-config\fR \fI<path>\fR
+Override path to the config file
+Default paths:
+.br
+    \fI~/.config/nvrs.toml\fR
+.br
+    \fI./nvrs.toml\fR
+
+.TP
+\fB\-\-copyright\fR
+Display copyright information
+
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help
+
+.TP
+\fB\-V\fR, \fB\-\-version\fB
+Print version
+
+.SH REPORTING BUGS
+since the project is still in active development, you may encounter some issues.
+.br
+please consider submitting feedback if you do.
+.br
+https://github.com/adamperkowski/nvrs/issues
+
+.SH COPYRIGHT
+Copyright (c) 2024 Adam Perkowski
+.br
+MIT License
+https://opensource.org/license/MIT
+
+.SH AUTHOR
+written by Adam Perkowski
+<adas1per@protonmail.com>
