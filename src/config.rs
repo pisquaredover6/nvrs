@@ -18,9 +18,27 @@ pub struct ConfigTable {
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Package {
+    pub source: String,
+    #[cfg(feature = "aur")]
+    #[serde(default)]
+    pub aur: String,
+    #[cfg(feature = "github")]
+    #[serde(default)]
     pub github: String,
     #[serde(default)]
     pub prefix: String,
+}
+
+impl Package {
+    pub fn get_api_arg(&self, api_name: &str) -> Option<String> {
+        match api_name {
+            #[cfg(feature = "aur")]
+            "aur" => Some(self.aur.clone()),
+            #[cfg(feature = "github")]
+            "github" => Some(self.github.clone()),
+            _ => None,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]

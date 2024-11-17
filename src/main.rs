@@ -144,8 +144,9 @@ copies or substantial portions of the Software.",
 
         for package in config_content.packages {
             if let Some(pkg) = newver.data.data.iter_mut().find(|p| p.0 == &package.0) {
-                let latest = api::github::get_latest(package.1.github)
+                let latest = run_source(package.clone())
                     .await
+                    .unwrap()
                     .tag_name
                     .replacen(&package.1.prefix, "", 1);
 
@@ -159,7 +160,7 @@ copies or substantial portions of the Software.",
                     pkg.1.version = latest;
                 }
             } else {
-                let latest = api::github::get_latest(package.1.github).await;
+                let latest = run_source(package.clone()).await.unwrap();
 
                 let tag = latest.tag_name.replacen(&package.1.prefix, "", 1);
 
@@ -176,6 +177,16 @@ copies or substantial portions of the Software.",
         }
 
         verfiles::save(newver, false, config_content.__config__).unwrap();
+    }
+}
+
+async fn run_source(package: (String, config::Package)) -> Option<api::Release> {
+    let source = package.1.source.clone();
+    if let Some(api_used) = api::API_LIST.iter().find(|a| a.name == source) {
+        Some((api_used.func)(package.0, package.1.get_api_arg(api_used.name).unwrap()).await)
+    } else {
+        custom_error("api not found: ", source);
+        None
     }
 }
 

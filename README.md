@@ -17,11 +17,11 @@ here's supposed to be a list of features and stuff but i'm too lazy to write all
 ### Speed
 <img src='https://media1.tenor.com/m/mMWXOkCEndoAAAAC/ka-chow-lightning-mcqueen.gif' alt='ka-chow' width=80 height=45>
 
-| command       | time per **updated** package | details                                                      |
-|---------------|------------------------------|--------------------------------------------------------------|
-| `nvrs`        | ~ 0.1s                       | **GitHub API request included**<br>depends on internet speed |
-| `nvrs --cmp`  | ~ 0.0008s                    | depends on disk speed                                        |
-| `nvrs --take` | ~ 0.001s                     | depends on disk speed                                        |
+| command       | time per **updated** package | details                                                |
+|---------------|------------------------------|--------------------------------------------------------|
+| `nvrs`        | ~ 0.09s                      | **API requests included**<br>depends on internet speed |
+| `nvrs --cmp`  | ~ 0.0008s                    | depends on disk speed                                  |
+| `nvrs --take` | ~ 0.001s                     | depends on disk speed                                  |
 
 ## Credits
 - [依云](https://github.com/lilydjwg) | the original [nvchecker](https://github.com/lilydjwg/nvchecker)

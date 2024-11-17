@@ -3,5 +3,10 @@ oldver = "oldver.json"
 newver = "newver.json"
 
 [hyprgui]
+source = "github"
 github = "hyprutils/hyprgui"
 prefix = "v"
+
+[hyprwall]
+source = "aur"
+aur = "hyprwall"
