@@ -169,20 +169,18 @@ copies or substantial portions of the Software.",
                         pkg.1.version = latest_tag;
                     }
                 }
-            } else {
-                if let Some(latest) = run_source(package.clone()).await {
-                    let tag = latest.tag_name.replacen(&package.1.prefix, "", 1);
+            } else if let Some(latest) = run_source(package.clone()).await {
+                let tag = latest.tag_name.replacen(&package.1.prefix, "", 1);
 
-                    println!("| {} {} -> {}", package.0.blue(), "NONE".red(), tag.green());
-                    newver.data.data.insert(
-                        package.0,
-                        verfiles::Package {
-                            version: tag,
-                            gitref: format!("refs/tags/{}", latest.tag_name),
-                            url: latest.html_url,
-                        },
-                    );
-                }
+                println!("| {} {} -> {}", package.0.blue(), "NONE".red(), tag.green());
+                newver.data.data.insert(
+                    package.0,
+                    verfiles::Package {
+                        version: tag,
+                        gitref: format!("refs/tags/{}", latest.tag_name),
+                        url: latest.html_url,
+                    },
+                );
             }
         }
 
