@@ -5,8 +5,18 @@ authors = ["Adam Perkowski <adas1per@protonmail.com>"]
 license = "MIT"
 description = "new version checker for software releases 🦀"
 repository = "https://github.com/adamperkowski/nvrs"
-categories = ["cli"]
+readme = "README.md"
+categories = ["command-line-interface", "command-line-utilities"]
 edition = "2021"
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "rustfmt.toml",
+    "man/nvrs.1"
+]
 
 [features]
 default = ["aur", "github"]
