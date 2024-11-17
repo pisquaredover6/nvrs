@@ -752,6 +752,7 @@ version = "0.1.1"
 dependencies = [
  "clap",
  "colored",
+ "lazy_static",
  "reqwest",
  "serde",
  "serde_json",

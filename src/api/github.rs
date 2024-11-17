@@ -3,7 +3,7 @@ use reqwest::{
     StatusCode,
 };
 
-pub fn get_latest(_: String, repo: String) -> crate::api::ReleaseFuture {
+pub fn get_latest(package: String, repo: String) -> crate::api::ReleaseFuture {
     Box::pin(async move {
         let url = format!("https://api.github.com/repos/{}/releases/latest", repo);
         let mut headers = HeaderMap::new();
@@ -22,11 +22,24 @@ pub fn get_latest(_: String, repo: String) -> crate::api::ReleaseFuture {
 
         match result.status() {
             StatusCode::OK => (),
+            StatusCode::FORBIDDEN => {
+                crate::custom_error(
+                    "GET request returned 430: ",
+                    format!("{}\nwe might be getting rate-limited here", package),
+                    "",
+                );
+                return None;
+            }
             status => {
-                crate::custom_error("GET request didn't return 200", format!("\n{}", status));
+                crate::custom_error(
+                    "GET request didn't return 200: ",
+                    format!("{}\n{}", package, status),
+                    "",
+                );
+                return None;
             }
         }
 
-        result.json().await.unwrap()
+        Some(result.json().await.unwrap())
     })
 }

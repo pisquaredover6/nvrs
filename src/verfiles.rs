@@ -36,7 +36,7 @@ pub struct Verfile {
 
 pub fn load(config_table: Option<ConfigTable>) -> Option<(Verfile, Verfile)> {
     if config_table.is_none() {
-        crate::custom_error(CONFIG_NONE_M, CONFIG_NONE_E.to_string());
+        crate::custom_error(CONFIG_NONE_M, CONFIG_NONE_E.to_string(), "");
     }
     let config_table = config_table.unwrap();
 
@@ -50,12 +50,13 @@ pub fn load(config_table: Option<ConfigTable>) -> Option<(Verfile, Verfile)> {
             crate::custom_error(
                 "unsupported verfile version",
                 "\nplease update your verfiles".to_string(),
+                "",
             );
         }
 
         Some((oldver, newver))
     } else {
-        crate::custom_error(XVER_NONE_M, CONFIG_NONE_E.to_string());
+        crate::custom_error(XVER_NONE_M, CONFIG_NONE_E.to_string(), "");
         None
     }
 }

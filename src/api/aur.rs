@@ -15,14 +15,15 @@ pub fn get_latest(package: String, _: String) -> crate::api::ReleaseFuture {
         match result.status() {
             StatusCode::OK => (),
             status => {
-                crate::custom_error("GET request didn't return 200", format!("\n{}", status));
+                crate::custom_error("GET request didn't return 200", format!("\n{}", status), "");
+                return None;
             }
         }
 
         let json: serde_json::Value = result.json().await.unwrap();
         let first_result = json.get("results").unwrap().get(0).unwrap();
 
-        crate::api::Release {
+        Some(crate::api::Release {
             tag_name: first_result
                 .get("Version")
                 .unwrap()
@@ -33,6 +34,6 @@ pub fn get_latest(package: String, _: String) -> crate::api::ReleaseFuture {
                 .replace("\"", "")
                 .to_string(),
             html_url: first_result.get("URL").unwrap().to_string(),
-        }
+        })
     })
 }

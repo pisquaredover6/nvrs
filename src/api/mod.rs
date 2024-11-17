@@ -11,7 +11,8 @@ pub struct Release {
     pub html_url: String,
 }
 
-pub type ReleaseFuture = std::pin::Pin<Box<dyn std::future::Future<Output = Release> + Send>>;
+pub type ReleaseFuture =
+    std::pin::Pin<Box<dyn std::future::Future<Output = Option<Release>> + Send>>;
 
 pub struct Api {
     pub name: &'static str,

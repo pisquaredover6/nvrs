@@ -1,10 +1,15 @@
 use clap::Parser;
 use colored::Colorize;
+use std::sync::Mutex;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 mod api;
 pub mod config;
 mod verfiles;
+
+lazy_static::lazy_static! {
+    static ref MSG_NOEXIT: Mutex<bool> = Mutex::new(false);
+}
 
 #[derive(Parser)]
 #[command(version, about)]
@@ -41,6 +46,9 @@ struct Cli {
     )]
     custom_config: Option<String>,
 
+    #[arg(long, help = "Don't exit the program on recoverable errors")]
+    no_fail: bool,
+
     #[arg(long, help = "Display copyright information")]
     copyright: bool,
 }
@@ -48,6 +56,10 @@ struct Cli {
 #[tokio::main]
 async fn main() {
     let cli = Cli::parse();
+
+    if cli.no_fail {
+        *MSG_NOEXIT.lock().unwrap() = true;
+    }
 
     if cli.copyright {
         let current_year = 1970
@@ -115,7 +127,7 @@ copies or substantial portions of the Software.",
                     oldver.data.data.insert(package_name, package.1.clone());
                 }
             } else {
-                custom_error_noexit("package not in newver: ", package_name);
+                custom_error("package not in newver: ", package_name, "noexit");
             }
         }
 
@@ -129,7 +141,7 @@ copies or substantial portions of the Software.",
             if config_content.packages.contains_key(&package_name) {
                 config_content.packages.remove(&package_name);
             } else {
-                custom_error_noexit("package not in config: ", package_name.clone());
+                custom_error("package not in config: ", package_name.clone(), "noexit");
             }
             newver.data.data.remove(&package_name);
             oldver.data.data.remove(&package_name);
@@ -144,35 +156,33 @@ copies or substantial portions of the Software.",
 
         for package in config_content.packages {
             if let Some(pkg) = newver.data.data.iter_mut().find(|p| p.0 == &package.0) {
-                let latest = run_source(package.clone())
-                    .await
-                    .unwrap()
-                    .tag_name
-                    .replacen(&package.1.prefix, "", 1);
+                if let Some(latest) = run_source(package.clone()).await {
+                    let latest_tag = latest.tag_name.replacen(&package.1.prefix, "", 1);
 
-                if pkg.1.version != latest {
-                    println!(
-                        "| {} {} -> {}",
-                        package.0.blue(),
-                        pkg.1.version.red(),
-                        latest.green()
-                    );
-                    pkg.1.version = latest;
+                    if pkg.1.version != latest_tag {
+                        println!(
+                            "| {} {} -> {}",
+                            package.0.blue(),
+                            pkg.1.version.red(),
+                            latest_tag.green()
+                        );
+                        pkg.1.version = latest_tag;
+                    }
                 }
             } else {
-                let latest = run_source(package.clone()).await.unwrap();
+                if let Some(latest) = run_source(package.clone()).await {
+                    let tag = latest.tag_name.replacen(&package.1.prefix, "", 1);
 
-                let tag = latest.tag_name.replacen(&package.1.prefix, "", 1);
-
-                println!("| {} {} -> {}", package.0.blue(), "NONE".red(), tag.green());
-                newver.data.data.insert(
-                    package.0,
-                    verfiles::Package {
-                        version: tag,
-                        gitref: format!("refs/tags/{}", latest.tag_name),
-                        url: latest.html_url,
-                    },
-                );
+                    println!("| {} {} -> {}", package.0.blue(), "NONE".red(), tag.green());
+                    newver.data.data.insert(
+                        package.0,
+                        verfiles::Package {
+                            version: tag,
+                            gitref: format!("refs/tags/{}", latest.tag_name),
+                            url: latest.html_url,
+                        },
+                    );
+                }
             }
         }
 
@@ -183,17 +193,17 @@ copies or substantial portions of the Software.",
 async fn run_source(package: (String, config::Package)) -> Option<api::Release> {
     let source = package.1.source.clone();
     if let Some(api_used) = api::API_LIST.iter().find(|a| a.name == source) {
-        Some((api_used.func)(package.0, package.1.get_api_arg(api_used.name).unwrap()).await)
+        Some((api_used.func)(package.0, package.1.get_api_arg(api_used.name).unwrap()).await?)
     } else {
-        custom_error("api not found: ", source);
+        custom_error("api not found: ", source, "");
         None
     }
 }
 
-pub fn custom_error(message: &'static str, message_ext: String) {
-    custom_error_noexit(message, message_ext);
-    std::process::exit(1);
-}
-pub fn custom_error_noexit(message: &'static str, message_ext: String) {
-    println!("! {}{}", message.red(), message_ext);
+pub fn custom_error(message: &'static str, message_ext: String, override_exit: &str) {
+    println!("! {}{}", message.red(), message_ext.replace("\n", "\n  "));
+
+    if override_exit != "noexit" && !*MSG_NOEXIT.lock().unwrap() {
+        std::process::exit(1);
+    }
 }

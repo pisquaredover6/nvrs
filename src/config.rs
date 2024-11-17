@@ -59,7 +59,7 @@ pub fn load(custom_path: Option<String>) -> (Config, PathBuf) {
                 PathBuf::from(config_path),
             );
         } else {
-            crate::custom_error("specified config file not found", String::new());
+            crate::custom_error("specified config file not found", String::new(), "");
         }
     }
 
@@ -93,7 +93,7 @@ pub fn load(custom_path: Option<String>) -> (Config, PathBuf) {
         crate::custom_error(
             "no config found",
             "\nconfig file locations:\n ~/.config/nvrs.toml\n ./nvrs.toml\nmake sure the file is not empty".to_string(),
-        );
+         "");
     }
 
     (
