@@ -7,6 +7,7 @@ pub mod config;
 mod verfiles;
 
 #[derive(Parser)]
+#[command(version, about)]
 struct Cli {
     #[arg(
         short = 'c',
