@@ -19,23 +19,32 @@ pub struct ConfigTable {
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Package {
     pub source: String,
+    #[serde(default)]
+    pub host: String,
+
     #[cfg(feature = "aur")]
     #[serde(default)]
     pub aur: String,
     #[cfg(feature = "github")]
     #[serde(default)]
     pub github: String,
+    #[cfg(feature = "gitlab")]
+    #[serde(default)]
+    pub gitlab: String,
+
     #[serde(default)]
     pub prefix: String,
 }
 
 impl Package {
-    pub fn get_api_arg(&self, api_name: &str) -> Option<String> {
+    pub fn get_api_arg(&self, api_name: &str) -> Option<Vec<String>> {
         match api_name {
             #[cfg(feature = "aur")]
-            "aur" => Some(self.aur.clone()),
+            "aur" => Some(vec![self.aur.clone()]),
             #[cfg(feature = "github")]
-            "github" => Some(self.github.clone()),
+            "github" => Some(vec![self.github.clone()]),
+            #[cfg(feature = "gitlab")]
+            "gitlab" => Some(vec![self.gitlab.clone(), self.host.clone()]),
             _ => None,
         }
     }

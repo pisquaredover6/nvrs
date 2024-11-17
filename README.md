@@ -29,6 +29,7 @@ you may encounter some issues. please consider [submitting feedback](https://git
 
 - `aur`
 - `github`
+- `gitlab` (with custom hosts)
 
 ## Credits
 - [依云](https://github.com/lilydjwg) | the original [nvchecker](https://github.com/lilydjwg/nvchecker)

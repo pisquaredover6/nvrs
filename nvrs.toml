@@ -7,6 +7,12 @@ source = "github"
 github = "hyprutils/hyprgui"
 prefix = "v"
 
+[alpm]
+source = "gitlab"
+host = "gitlab.archlinux.org"
+gitlab = "archlinux/mkinitcpio/mkinitcpio"
+prefix = "v"
+
 [hyprwall]
 source = "aur"
 aur = "hyprwall"

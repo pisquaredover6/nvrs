@@ -4,6 +4,8 @@ use serde::Deserialize;
 pub mod aur;
 #[cfg(feature = "github")]
 pub mod github;
+#[cfg(feature = "gitlab")]
+pub mod gitlab;
 
 #[derive(Deserialize)]
 pub struct Release {
@@ -16,7 +18,7 @@ pub type ReleaseFuture =
 
 pub struct Api {
     pub name: &'static str,
-    pub func: fn(String, String) -> ReleaseFuture,
+    pub func: fn(String, Vec<String>) -> ReleaseFuture,
 }
 
 pub const API_LIST: &[Api] = &[
@@ -29,5 +31,10 @@ pub const API_LIST: &[Api] = &[
     Api {
         name: "github",
         func: github::get_latest,
+    },
+    #[cfg(feature = "gitlab")]
+    Api {
+        name: "gitlab",
+        func: gitlab::get_latest,
     },
 ];

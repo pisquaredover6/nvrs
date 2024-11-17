@@ -3,9 +3,9 @@ use reqwest::{
     StatusCode,
 };
 
-pub fn get_latest(package: String, repo: String) -> crate::api::ReleaseFuture {
+pub fn get_latest(package: String, repo: Vec<String>) -> crate::api::ReleaseFuture {
     Box::pin(async move {
-        let url = format!("https://api.github.com/repos/{}/releases/latest", repo);
+        let url = format!("https://api.github.com/repos/{}/releases/latest", repo[0]);
         let mut headers = HeaderMap::new();
         headers.insert(
             ACCEPT,

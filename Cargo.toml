@@ -19,9 +19,10 @@ include = [
 ]
 
 [features]
-default = ["aur", "github"]
+default = ["aur", "github", "gitlab"]
 aur = ["reqwest"]
 github = ["reqwest"]
+gitlab = ["reqwest"]
 
 [dependencies]
 clap = { version = "4.5.21", features = ["derive", "color", "error-context", "help", "std", "usage"], default-features = false }
