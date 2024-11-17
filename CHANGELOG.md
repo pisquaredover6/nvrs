@@ -2,6 +2,30 @@
 
 All notable changes to nvrs will be documented in this file.
 
+## [0.1.2] - 2024-11-17
+
+### 🚀 Features
+
+- (*sources*) multiple sources + AUR ([8322ada](https://github.com/adamperkowski/nvrs/commit/8322adaac003dd9210bd291399b275eb5daaf673))
+- `--no-fail` ([4db55bc](https://github.com/adamperkowski/nvrs/commit/4db55bcd2ff55c7c137f511ce40999b6afe2b3f7))
+- gitlab support ([4c46d82](https://github.com/adamperkowski/nvrs/commit/4c46d828bd55196a1ea094b5a2f9d037948b87e1))
+- [**breaking**] keyfiles ([8ae2c27](https://github.com/adamperkowski/nvrs/commit/8ae2c27b71cb3fabd66623a13b9a8241c56deaad))
+
+### 🐛 Bug Fixes
+
+- (*aur*) quotes ([b1b3fcf](https://github.com/adamperkowski/nvrs/commit/b1b3fcf64c7591dc87ba201ecf54a4029fbd1960))
+- (*aur*) quotes again ([9c2fedf](https://github.com/adamperkowski/nvrs/commit/9c2fedf1d7d4bbebe5a1ca9d8bfd204daee4283f))
+
+### 📚 Documentation
+
+- (*readme*) add `sources` ([0823f46](https://github.com/adamperkowski/nvrs/commit/0823f46aea5e19f31605360849bfeec2389c51af))
+
+### ⚙️ Miscellaneous Tasks
+
+- more `cargo` metadata ([6b6ebd6](https://github.com/adamperkowski/nvrs/commit/6b6ebd680f49d22c053360f7b542ba074e3eb2b1))
+- (*main.rs*) collapse the `latest` `else if` statement ([3cdb71d](https://github.com/adamperkowski/nvrs/commit/3cdb71dc8e1759eb6a3309d5fe45dfe95663fc02))
+- (*gitignore*) add `keyfile.toml` ([602b91f](https://github.com/adamperkowski/nvrs/commit/602b91fba795ec8916bbdb4131d4a89975b157bf))
+
 ## [0.1.1] - 2024-11-17
 
 ### 🚀 Features
