@@ -5,8 +5,7 @@ use crate::config::ConfigTable;
 
 const TEMPLATE: &str = r#"{
   "version": 2,
-  "data": {
-  }
+  "data": {}
 }
 "#;
 

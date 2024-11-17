@@ -1,7 +1,12 @@
-use serde::Deserialize;
-use std::{collections::HashMap, env, fs, path::Path};
+use serde::{Deserialize, Serialize};
+use std::{
+    collections::HashMap,
+    env, fs,
+    io::Write,
+    path::{Path, PathBuf},
+};
 
-#[derive(Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct ConfigTable {
     pub oldver: Option<String>,
     pub newver: Option<String>,
@@ -11,27 +16,30 @@ pub struct ConfigTable {
     keyfile: Option<String>, */
 }
 
-#[derive(Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Package {
     pub github: String,
     #[serde(default)]
     pub prefix: String,
 }
 
-#[derive(Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Config {
     pub __config__: Option<ConfigTable>,
     #[serde(flatten)]
     pub packages: HashMap<String, Package>,
 }
 
-pub fn load(custom_path: Option<String>) -> Config {
+pub fn load(custom_path: Option<String>) -> (Config, PathBuf) {
     if let Some(path) = custom_path {
         let config_path = Path::new(&path);
         if config_path.exists() && config_path.is_file() {
             let content = fs::read_to_string(config_path).unwrap_or_default();
 
-            toml::from_str(&content).expect("failed to read the config file")
+            return (
+                toml::from_str(&content).expect("failed to read the config file"),
+                PathBuf::from(config_path),
+            );
         } else {
             crate::custom_error("specified config file not found", String::new());
         }
@@ -49,12 +57,18 @@ pub fn load(custom_path: Option<String>) -> Config {
     );
     let config_home_path = Path::new(&config_home);
 
-    let content = if config_path.exists() && config_path.is_file() {
-        fs::read_to_string(config_path).unwrap_or_default()
+    let (content, path_actual) = if config_path.exists() && config_path.is_file() {
+        (
+            fs::read_to_string(config_path).unwrap_or_default(),
+            PathBuf::from(config_path),
+        )
     } else if config_home_path.exists() && config_home_path.is_file() {
-        fs::read_to_string(config_home_path).unwrap_or_default()
+        (
+            fs::read_to_string(config_home_path).unwrap_or_default(),
+            PathBuf::from(config_home_path),
+        )
     } else {
-        String::new()
+        (String::new(), PathBuf::new())
     };
 
     if content.is_empty() {
@@ -64,5 +78,14 @@ pub fn load(custom_path: Option<String>) -> Config {
         );
     }
 
-    toml::from_str(&content).expect("error reading the config file")
+    (
+        toml::from_str(&content).expect("error reading the config file"),
+        path_actual,
+    )
+}
+
+pub fn save(config_content: Config, path: PathBuf) -> Result<(), std::io::Error> {
+    let mut file = fs::File::create(path).unwrap();
+    let content = format!("{}\n", toml::to_string(&config_content).unwrap());
+    file.write_all(content.as_bytes())
 }

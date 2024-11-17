@@ -28,7 +28,8 @@ struct Cli {
         short = 'n',
         long,
         value_name = "packages",
-        help = "List of packages to delete from the config"
+        help = "List of packages to delete from the config",
+        value_delimiter = ','
     )]
     nuke: Option<Vec<String>>,
 
@@ -68,7 +69,7 @@ copies or substantial portions of the Software.",
             current_year
         );
     } else if cli.cmp {
-        let config_content = config::load(cli.custom_config);
+        let (config_content, _) = config::load(cli.custom_config);
         let (oldver, newver) = verfiles::load(config_content.__config__.clone()).unwrap();
 
         for package in newver.data.data {
@@ -92,30 +93,52 @@ copies or substantial portions of the Software.",
         }
     } else if cli.take.is_some() {
         let names = cli.take.unwrap();
-        let config_content = config::load(cli.custom_config);
+        let (config_content, _) = config::load(cli.custom_config);
         let (mut oldver, newver) = verfiles::load(config_content.__config__.clone()).unwrap();
 
         for package_name in names {
             if let Some(package) = newver.data.data.iter().find(|p| p.0 == &package_name) {
                 if let Some(pkg) = oldver.data.data.iter_mut().find(|p| p.0 == &package_name) {
-                    pkg.1.version = package.1.version.clone();
-                    pkg.1.gitref = package.1.gitref.clone();
-                    pkg.1.url = package.1.url.clone();
+                    if pkg.1.version != package.1.version {
+                        println!(
+                            "* {} {} -> {}",
+                            package.0.blue(),
+                            pkg.1.version.red(),
+                            package.1.version.green()
+                        );
+                        pkg.1.version = package.1.version.clone();
+                        pkg.1.gitref = package.1.gitref.clone();
+                        pkg.1.url = package.1.url.clone();
+                    }
                 } else {
                     oldver.data.data.insert(package_name, package.1.clone());
                 }
             } else {
-                custom_error(
-                    "package not found: ",
-                    format!("{}\ndid you run `nvrs`?", package_name),
-                );
+                custom_error_noexit("package not in newver: ", package_name);
             }
         }
 
         verfiles::save(oldver, true, config_content.__config__).unwrap();
     } else if cli.nuke.is_some() {
+        let names = cli.nuke.unwrap();
+        let (mut config_content, config_content_path) = config::load(cli.custom_config);
+        let (mut oldver, mut newver) = verfiles::load(config_content.__config__.clone()).unwrap();
+
+        for package_name in names {
+            if config_content.packages.contains_key(&package_name) {
+                config_content.packages.remove(&package_name);
+            } else {
+                custom_error_noexit("package not in config: ", package_name.clone());
+            }
+            newver.data.data.remove(&package_name);
+            oldver.data.data.remove(&package_name);
+        }
+
+        verfiles::save(newver, false, config_content.__config__.clone()).unwrap();
+        verfiles::save(oldver, true, config_content.__config__.clone()).unwrap();
+        config::save(config_content, config_content_path).unwrap();
     } else {
-        let config_content = config::load(cli.custom_config);
+        let (config_content, _) = config::load(cli.custom_config);
         let (_, mut newver) = verfiles::load(config_content.__config__.clone()).unwrap();
 
         for package in config_content.packages {
@@ -156,6 +179,9 @@ copies or substantial portions of the Software.",
 }
 
 pub fn custom_error(message: &'static str, message_ext: String) {
-    println!("! {}{}", message.red(), message_ext);
+    custom_error_noexit(message, message_ext);
     std::process::exit(1);
+}
+pub fn custom_error_noexit(message: &'static str, message_ext: String) {
+    println!("! {}{}", message.red(), message_ext);
 }
