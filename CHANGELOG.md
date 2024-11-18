@@ -2,6 +2,15 @@
 
 All notable changes to nvrs will be documented in this file.
 
+## [upstream]
+
+### 📚 Documentation
+
+- (*config*) add a keyfile ([6f4ec82](https://github.com/adamperkowski/nvrs/commit/6f4ec82d58e099feca69b757c864da7a932a84fa))
+- (*manpage*) add `--no-fail` ([86b7b6e](https://github.com/adamperkowski/nvrs/commit/86b7b6ef02dc2be981ffd8b5597c56b0dd70f27d))
+- CONTRIBUTING.md, CODE_OF_CONDUCT.md, README badges, PULL_REQUEST_TEMPLATE.md ([ece2f01](https://github.com/adamperkowski/nvrs/commit/ece2f01ac8934c0bf4ae1eca4d895896ed1ac336))
+- (*git-cliff*) disable github usernames ([889d365](https://github.com/adamperkowski/nvrs/commit/889d365dbd53f861ff4aa85633599a0996b09326))
+
 ## [0.1.2] - 2024-11-17
 
 ### 🚀 Features
