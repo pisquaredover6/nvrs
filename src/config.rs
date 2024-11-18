@@ -183,6 +183,6 @@ pub fn save(config_content: Config, path: PathBuf) -> Result<(), std::io::Error>
     file.write_all(content.as_bytes())
 }
 
-fn is_empty_string(value: &String) -> bool {
+fn is_empty_string(value: &str) -> bool {
     value.is_empty()
 }
