@@ -16,7 +16,7 @@ body = """
     {% for commit in commits %}
         - {% if commit.scope %}(*{{ commit.scope }}*) {% endif %}\
             {% if commit.breaking %}[**breaking**] {% endif %}\
-            {{ commit.message }} ([{{ commit.id | truncate(length=7, end="") }}](<REPO>/commit/{{ commit.id }}){% if commit.remote.username %} by @{{ commit.remote.username }}{%- endif %})\
+            {{ commit.message }} ([{{ commit.id | truncate(length=7, end="") }}](<REPO>/commit/{{ commit.id }}))\
     {% endfor %}
 {% endfor %}\n
 """
