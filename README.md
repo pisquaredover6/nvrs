@@ -6,7 +6,7 @@ new version checker for software releases 🦀<br>
 
 ![GitHub Contributors](https://img.shields.io/github/contributors-anon/adamperkowski/nvrs?style=for-the-badge&labelColor=%23a8127d&color=%23336795) ![GitHub Repo Size](https://img.shields.io/github/repo-size/adamperkowski/nvrs?style=for-the-badge&labelColor=%23a8127d&color=%23336795) ![Repo Created At](https://img.shields.io/github/created-at/adamperkowski/nvrs?style=for-the-badge&labelColor=%23a8127d&color=%23336795)
 
-![banner](/banner.png)
+![banner](/banner.webp)
 
 </div>
 
