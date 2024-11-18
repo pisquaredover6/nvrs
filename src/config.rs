@@ -10,9 +10,11 @@ use std::{
 struct KeysTable {
     #[cfg(feature = "github")]
     #[serde(default)]
+    #[serde(skip_serializing_if = "is_empty_string")]
     pub github: String,
     #[cfg(feature = "gitlab")]
     #[serde(default)]
+    #[serde(skip_serializing_if = "is_empty_string")]
     pub gitlab: String,
 }
 
@@ -45,19 +47,24 @@ pub struct ConfigTable {
 pub struct Package {
     pub source: String,
     #[serde(default)]
+    #[serde(skip_serializing_if = "is_empty_string")]
     pub host: String,
 
     #[cfg(feature = "aur")]
     #[serde(default)]
+    #[serde(skip_serializing_if = "is_empty_string")]
     pub aur: String,
     #[cfg(feature = "github")]
     #[serde(default)]
+    #[serde(skip_serializing_if = "is_empty_string")]
     pub github: String,
     #[cfg(feature = "gitlab")]
     #[serde(default)]
+    #[serde(skip_serializing_if = "is_empty_string")]
     pub gitlab: String,
 
     #[serde(default)]
+    #[serde(skip_serializing_if = "is_empty_string")]
     pub prefix: String,
 }
 
@@ -174,4 +181,8 @@ pub fn save(config_content: Config, path: PathBuf) -> Result<(), std::io::Error>
     let mut file = fs::File::create(path).unwrap();
     let content = format!("{}\n", toml::to_string(&config_content).unwrap());
     file.write_all(content.as_bytes())
+}
+
+fn is_empty_string(value: &String) -> bool {
+    value.is_empty()
 }
