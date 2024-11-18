@@ -132,6 +132,12 @@ copies or substantial portions of the Software.",
                     pkg.1.gitref = package.1.gitref.clone();
                     pkg.1.url = package.1.url.clone();
                 } else {
+                    println!(
+                        "+ {} {} -> {}",
+                        package.0.blue(),
+                        "NONE".red(),
+                        package.1.version.green()
+                    );
                     oldver.data.data.insert(package_name, package.1.clone());
                 }
             } else {
