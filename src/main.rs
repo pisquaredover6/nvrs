@@ -177,6 +177,8 @@ copies or substantial portions of the Software.",
                         tag.green()
                     );
                     pkg.1.version = tag;
+                    pkg.1.gitref = format!("refs/tags/{}", release.tag_name);
+                    pkg.1.url = release.html_url;
                 }
             } else {
                 println!("| {} {} -> {}", package.0.blue(), "NONE".red(), tag.green());
