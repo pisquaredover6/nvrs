@@ -11,7 +11,7 @@ source = "github"
 github = "hyprutils/hyprgui"
 prefix = "v"
 
-[alpm]
+[mkinitcpio]
 source = "gitlab"
 host = "gitlab.archlinux.org"
 gitlab = "archlinux/mkinitcpio/mkinitcpio"
