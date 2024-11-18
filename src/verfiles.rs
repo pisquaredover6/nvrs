@@ -18,7 +18,9 @@ newver = \"newver.json\"";
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Package {
     pub version: String,
+    #[serde(default)]
     pub gitref: String,
+    #[serde(default)]
     pub url: String,
 }
 

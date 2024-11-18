@@ -120,10 +120,17 @@ copies or substantial portions of the Software.",
                             pkg.1.version.red(),
                             package.1.version.green()
                         );
-                        pkg.1.version = package.1.version.clone();
-                        pkg.1.gitref = package.1.gitref.clone();
-                        pkg.1.url = package.1.url.clone();
+                    } else {
+                        println!(
+                            "+ {} {} -> {}",
+                            package.0.blue(),
+                            pkg.1.version,
+                            package.1.version
+                        );
                     }
+                    pkg.1.version = package.1.version.clone();
+                    pkg.1.gitref = package.1.gitref.clone();
+                    pkg.1.url = package.1.url.clone();
                 } else {
                     oldver.data.data.insert(package_name, package.1.clone());
                 }
