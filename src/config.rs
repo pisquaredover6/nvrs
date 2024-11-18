@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 use std::{
-    collections::HashMap,
+    collections::BTreeMap,
     env, fs,
     io::Write,
     path::{Path, PathBuf},
@@ -86,7 +86,7 @@ impl Package {
 pub struct Config {
     pub __config__: Option<ConfigTable>,
     #[serde(flatten)]
-    pub packages: HashMap<String, Package>,
+    pub packages: BTreeMap<String, Package>,
 }
 
 pub fn load(custom_path: Option<String>) -> (Config, PathBuf, Option<Keyfile>) {

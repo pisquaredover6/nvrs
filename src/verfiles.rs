@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use std::{collections::HashMap, fs, io::Write, path::Path};
+use std::{collections::BTreeMap, fs, io::Write, path::Path};
 
 use crate::config::ConfigTable;
 
@@ -24,7 +24,7 @@ pub struct Package {
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Data {
-    pub data: HashMap<String, Package>,
+    pub data: BTreeMap<String, Package>,
 }
 
 #[derive(Clone, Serialize, Deserialize)]
