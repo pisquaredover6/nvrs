@@ -2,7 +2,13 @@
 
 All notable changes to nvrs will be documented in this file.
 
-## [upstream]
+## [0.1.3] - 2024-11-18
+
+### 🐛 Bug Fixes
+
+- not updating newver refs & urls ([2d3c48e](https://github.com/adamperkowski/nvrs/commit/2d3c48e097beb569dae2d610f35aaec03614e835))
+- saving empty strings ([4b7a48a](https://github.com/adamperkowski/nvrs/commit/4b7a48a49ad39e49e2d98f4b87c2d7eb387c843d))
+- messed up packages order ([8e5d63a](https://github.com/adamperkowski/nvrs/commit/8e5d63ad97b66fa5783d579241ba82c7499a47d2))
 
 ### 📚 Documentation
 
@@ -10,6 +16,14 @@ All notable changes to nvrs will be documented in this file.
 - (*manpage*) add `--no-fail` ([86b7b6e](https://github.com/adamperkowski/nvrs/commit/86b7b6ef02dc2be981ffd8b5597c56b0dd70f27d))
 - CONTRIBUTING.md, CODE_OF_CONDUCT.md, README badges, PULL_REQUEST_TEMPLATE.md ([ece2f01](https://github.com/adamperkowski/nvrs/commit/ece2f01ac8934c0bf4ae1eca4d895896ed1ac336))
 - (*git-cliff*) disable github usernames ([889d365](https://github.com/adamperkowski/nvrs/commit/889d365dbd53f861ff4aa85633599a0996b09326))
+
+### ⚡ Performance
+
+- I. AM. SPEED. ([6933f8c](https://github.com/adamperkowski/nvrs/commit/6933f8ccafa0ae4f195e65921541e5eeb12b05fb))
+
+### ⚙️ Miscellaneous Tasks
+
+- fix invalid `is_empty_string` type ([1e8ae8f](https://github.com/adamperkowski/nvrs/commit/1e8ae8f44c24a1a70c7424c979ab4b654000f29c))
 
 ## [0.1.2] - 2024-11-17
 
