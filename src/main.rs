@@ -155,31 +155,37 @@ copies or substantial portions of the Software.",
         let (config_content, _, keyfile) = config::load(cli.custom_config);
         let (_, mut newver) = verfiles::load(config_content.__config__.clone()).unwrap();
 
+        let tasks: Vec<_> = config_content
+            .packages
+            .clone()
+            .into_iter()
+            .map(|pkg| tokio::spawn(run_source(pkg, keyfile.clone())))
+            .collect();
+
+        let mut results = futures::future::join_all(tasks).await;
+
         for package in config_content.packages {
+            let release = results.remove(0).unwrap().unwrap();
+            let tag = release.tag_name.replacen(&package.1.prefix, "", 1);
+
             if let Some(pkg) = newver.data.data.iter_mut().find(|p| p.0 == &package.0) {
-                if let Some(latest) = run_source(package.clone(), keyfile.clone()).await {
-                    let latest_tag = latest.tag_name.replacen(&package.1.prefix, "", 1);
-
-                    if pkg.1.version != latest_tag {
-                        println!(
-                            "| {} {} -> {}",
-                            package.0.blue(),
-                            pkg.1.version.red(),
-                            latest_tag.green()
-                        );
-                        pkg.1.version = latest_tag;
-                    }
+                if pkg.1.version != tag {
+                    println!(
+                        "| {} {} -> {}",
+                        package.0.blue(),
+                        pkg.1.version.red(),
+                        tag.green()
+                    );
+                    pkg.1.version = tag;
                 }
-            } else if let Some(latest) = run_source(package.clone(), keyfile.clone()).await {
-                let tag = latest.tag_name.replacen(&package.1.prefix, "", 1);
-
+            } else {
                 println!("| {} {} -> {}", package.0.blue(), "NONE".red(), tag.green());
                 newver.data.data.insert(
                     package.0,
                     verfiles::Package {
                         version: tag,
-                        gitref: format!("refs/tags/{}", latest.tag_name),
-                        url: latest.html_url,
+                        gitref: format!("refs/tags/{}", release.tag_name),
+                        url: release.html_url,
                     },
                 );
             }
