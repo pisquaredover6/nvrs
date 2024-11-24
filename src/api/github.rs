@@ -1,49 +1,56 @@
-use reqwest::{
-    header::{HeaderMap, HeaderValue, ACCEPT, AUTHORIZATION, USER_AGENT},
-    StatusCode,
-};
+use reqwest::header::{HeaderValue, ACCEPT, AUTHORIZATION};
 
-pub fn get_latest(package: String, repo: Vec<String>, key: String) -> crate::api::ReleaseFuture {
+use crate::api;
+
+#[derive(serde::Deserialize)]
+struct GitHubResponse {
+    tag_name: String,
+    html_url: String,
+}
+
+pub fn get_latest(args: api::ApiArgs) -> api::ReleaseFuture {
     Box::pin(async move {
-        let url = format!("https://api.github.com/repos/{}/releases/latest", repo[0]);
-        let mut headers = HeaderMap::new();
+        let url = format!(
+            "https://api.github.com/repos/{}/releases/latest",
+            args.args[0]
+        );
+        let mut headers = api::setup_headers();
         headers.insert(
             ACCEPT,
             HeaderValue::from_static("application/vnd.github+json"),
         );
-        headers.insert(USER_AGENT, HeaderValue::from_static("nvrs"));
         headers.insert(
             "X-GitHub-Api-Version",
             HeaderValue::from_static("2022-11-28"),
         );
-        if !key.is_empty() {
-            let bearer = format!("Bearer {}", key);
+        if !args.api_key.is_empty() {
+            let bearer = format!("Bearer {}", args.api_key);
             headers.insert(AUTHORIZATION, HeaderValue::from_str(&bearer).unwrap());
         }
-        let client = reqwest::Client::new();
+        let client = args.request_client;
 
-        let result = client.get(url).headers(headers).send().await.unwrap();
+        let result = client.get(url).headers(headers).send().await?;
+        api::match_statuscode(&result.status(), args.package)?;
 
-        match result.status() {
-            StatusCode::OK => (),
-            StatusCode::FORBIDDEN => {
-                crate::custom_error(
-                    "GET request returned 430: ",
-                    format!("{}\nwe might be getting rate-limited here", package),
-                    "",
-                );
-                return None;
-            }
-            status => {
-                crate::custom_error(
-                    "GET request didn't return 200: ",
-                    format!("{}\n{}", package, status),
-                    "",
-                );
-                return None;
-            }
-        }
+        let json: GitHubResponse = result.json().await?;
 
-        Some(result.json().await.unwrap())
+        Ok(api::Release {
+            name: json.tag_name.clone(),
+            tag: Some(json.tag_name),
+            url: json.html_url,
+        })
     })
+}
+
+#[tokio::test]
+async fn request_test() {
+    let package = "nvrs".to_string();
+    let args = api::ApiArgs {
+        package: package.clone(),
+        args: vec![format!("adamperkowski/{}", package)],
+        api_key: String::new(),
+        request_client: reqwest::Client::new(),
+    };
+
+    assert!(get_latest(args).await.is_ok());
 }

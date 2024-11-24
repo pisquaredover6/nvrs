@@ -4,6 +4,7 @@
 🚦 fast new version checker for software releases 🦀<br>
 [nvchecker](https://github.com/lilydjwg/nvchecker) rewritten in Rust
 
+![Build Status](https://img.shields.io/github/actions/workflow/status/adamperkowski/nvrs/rust.yml?style=for-the-badge&labelColor=%23a8127d&color=%23336795) ![docs.rs](https://img.shields.io/docsrs/nvrs?style=for-the-badge&labelColor=%23a8127d&color=%23336795)<br>
 ![GitHub Contributors](https://img.shields.io/github/contributors-anon/adamperkowski/nvrs?style=for-the-badge&labelColor=%23a8127d&color=%23336795) ![GitHub Repo Size](https://img.shields.io/github/repo-size/adamperkowski/nvrs?style=for-the-badge&labelColor=%23a8127d&color=%23336795) ![Repo Created At](https://img.shields.io/github/created-at/adamperkowski/nvrs?style=for-the-badge&labelColor=%23a8127d&color=%23336795)
 
 ![banner](/banner.webp)
@@ -22,7 +23,7 @@ you may encounter some issues. please consider [submitting feedback](https://git
 
 | command       | time per **updated** package | details                                                |
 |---------------|------------------------------|--------------------------------------------------------|
-| `nvrs`        | ~ 0.04s                      | **API requests included**<br>depends on internet speed |
+| `nvrs`        | ~ 0.03s                      | **API requests included**<br>depends on internet speed |
 | `nvrs --cmp`  | ~ 0.0008s                    | depends on disk speed                                  |
 | `nvrs --take` | ~ 0.001s                     | depends on disk speed                                  |
 
