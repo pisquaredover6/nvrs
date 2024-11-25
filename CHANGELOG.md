@@ -8,12 +8,17 @@ All notable changes to nvrs will be documented in this file.
 
 - (*verfile*) allow missing gitref & url ([b93216d](https://github.com/adamperkowski/nvrs/commit/b93216d5146a672897e11938668e05cfa859cfac))
 
+### ⚙️ Refactoring
+
+- (*codebase*) [**breaking**] move internal logic to `lib` ([#4](https://github.com/adamperkowski/nvrs/issues/4)) ([c0021f0](https://github.com/adamperkowski/nvrs/commit/c0021f0a4e02791802fba9ba6bca5486f825ee4e))
+
 ### 📚 Documentation
 
 - (*git-cliff*) add `UI/UX` ([42727ad](https://github.com/adamperkowski/nvrs/commit/42727ad6bd020ecee06e93017e7e5b68851c01d3))
 - (*config*) fix the package name (alpm -> mkinitcpio) ([1327516](https://github.com/adamperkowski/nvrs/commit/132751692941f5e1e2cce188d545f3ee421dad46))
 - better banner ([a4718b6](https://github.com/adamperkowski/nvrs/commit/a4718b60505d26c2e262b70d77160b475b8f2348))
 - (*dependabot*) change cargo commit message ([90d50ab](https://github.com/adamperkowski/nvrs/commit/90d50ab0fd6cd4964408796e2f75affeb539923b))
+- 🚦 ([f2e22b6](https://github.com/adamperkowski/nvrs/commit/f2e22b6c8daece310080a8e32d183e0f6ef3e3f0))
 
 ### 🧩 UI/UX
 
