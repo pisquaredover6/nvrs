@@ -820,7 +820,7 @@ dependencies = [
 
 [[package]]
 name = "nvrs"
-version = "0.1.4-pre1"
+version = "0.1.4"
 dependencies = [
  "clap",
  "colored",

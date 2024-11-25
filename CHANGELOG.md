@@ -2,11 +2,16 @@
 
 All notable changes to nvrs will be documented in this file.
 
-## [upstream]
+## [0.1.4] - 2024-11-25
+
+### 🚀 Features
+
+- (*take*) `ALL` functionality ([0ee83eb](https://github.com/adamperkowski/nvrs/commit/0ee83eb785f939780c8e07920c1f98a8a258d158))
 
 ### 🐛 Bug Fixes
 
 - (*verfile*) allow missing gitref & url ([b93216d](https://github.com/adamperkowski/nvrs/commit/b93216d5146a672897e11938668e05cfa859cfac))
+- `--nuke` not working ([15b75d9](https://github.com/adamperkowski/nvrs/commit/15b75d99667a4c52d0d9b093704aa02ca4d35e3e))
 
 ### ⚙️ Refactoring
 
