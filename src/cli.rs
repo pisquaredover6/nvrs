@@ -25,7 +25,7 @@ pub struct Cli {
         short = 't',
         long,
         value_name = "packages",
-        help = "List of packages to update automatically, separated by a comma",
+        help = "Comma-separated list of packages to update automatically (use `ALL` for all)",
         value_delimiter = ','
     )]
     pub take: Option<Vec<String>>,
@@ -34,7 +34,7 @@ pub struct Cli {
         short = 'n',
         long,
         value_name = "packages",
-        help = "List of packages to delete from the config",
+        help = "Comma-separated list of packages to delete from the config",
         value_delimiter = ','
     )]
     pub nuke: Option<Vec<String>>,

@@ -79,20 +79,26 @@ async fn take(core: Core, take_names: Option<Vec<String>>) -> error::Result<()> 
     let config = core.config;
     let (mut oldver, newver) = core.verfiles;
 
-    for package_name in names {
-        if let Some(new_pkg) = newver.data.data.iter().find(|p| p.0 == &package_name) {
-            if let Some(old_pkg) = oldver.data.data.iter_mut().find(|p| p.0 == &package_name) {
-                if old_pkg.1.version != new_pkg.1.version {
+    let packages_to_update = if names.contains(&"ALL".to_string()) {
+        newver.data.data.keys().cloned().collect()
+    } else {
+        names
+    };
+
+    for package_name in packages_to_update {
+        if let Some(new_pkg) = newver.data.data.get(&package_name) {
+            if let Some(old_pkg) = oldver.data.data.get_mut(&package_name) {
+                if old_pkg.version != new_pkg.version {
                     println!(
                         "{} {} {} -> {}",
                         "+".white().on_black(),
                         package_name.blue(),
-                        old_pkg.1.version.red(),
-                        new_pkg.1.version.green()
+                        old_pkg.version.red(),
+                        new_pkg.version.green()
                     );
-                    old_pkg.1.version = new_pkg.1.version.clone();
-                    old_pkg.1.gitref = new_pkg.1.gitref.clone();
-                    old_pkg.1.url = new_pkg.1.url.clone();
+                    old_pkg.version = new_pkg.version.clone();
+                    old_pkg.gitref = new_pkg.gitref.clone();
+                    old_pkg.url = new_pkg.url.clone();
                 }
             } else {
                 println!(
@@ -100,9 +106,9 @@ async fn take(core: Core, take_names: Option<Vec<String>>) -> error::Result<()> 
                     "+".white().on_black(),
                     package_name.blue(),
                     "NONE".red(),
-                    new_pkg.1.version.green()
+                    new_pkg.version.green()
                 );
-                oldver.data.data.insert(package_name, new_pkg.1.clone());
+                oldver.data.data.insert(package_name, new_pkg.clone());
             }
         } else {
             return Err(error::Error::PkgNotInNewver(package_name));
