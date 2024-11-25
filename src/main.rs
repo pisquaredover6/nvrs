@@ -11,6 +11,8 @@ async fn main() -> error::Result<()> {
                 compare(core.0).await
             } else if core.1.take.is_some() {
                 take(core.0, core.1.take).await
+            } else if core.1.nuke.is_some() {
+                nuke(core.0, core.1.nuke, core.1.no_fail).await
             } else {
                 sync(core.0, core.1.no_fail).await
             };
@@ -35,7 +37,7 @@ async fn init() -> error::Result<(Core, cli::Cli)> {
 
     Ok((
         Core {
-            config: config.0,
+            config,
             verfiles,
             client: reqwest::Client::new(),
             keyfile,
@@ -107,11 +109,35 @@ async fn take(core: Core, take_names: Option<Vec<String>>) -> error::Result<()> 
         }
     }
 
-    verfiles::save(oldver, true, config.__config__).await
+    verfiles::save(oldver, true, config.0.__config__).await
+}
+
+async fn nuke(core: Core, nuke_names: Option<Vec<String>>, no_fail: bool) -> error::Result<()> {
+    let names = nuke_names.unwrap();
+    let mut config_content = core.config.0;
+    let (mut oldver, mut newver) = core.verfiles;
+
+    for package_name in names {
+        if config_content.packages.contains_key(&package_name) {
+            config_content.packages.remove(&package_name);
+        } else if no_fail {
+            pretty_error(&error::Error::PkgNotInConfig(package_name.clone()));
+        } else {
+            return Err(error::Error::PkgNotInConfig(package_name));
+        }
+        newver.data.data.remove(&package_name);
+        oldver.data.data.remove(&package_name);
+    }
+
+    verfiles::save(newver, false, config_content.__config__.clone()).await?;
+    verfiles::save(oldver, true, config_content.__config__.clone()).await?;
+    config::save(config_content, core.config.1).await?;
+
+    Ok(())
 }
 
 async fn sync(core: Core, no_fail: bool) -> error::Result<()> {
-    let config = core.config;
+    let config = core.config.0;
     let (_, mut newver) = core.verfiles;
 
     let tasks: Vec<_> = config

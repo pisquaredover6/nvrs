@@ -9,7 +9,7 @@ use std::{
     env,
     path::{Path, PathBuf},
 };
-use tokio::fs;
+use tokio::{fs, io::AsyncWriteExt};
 
 /// main configuration file structure
 ///
@@ -131,6 +131,15 @@ pub async fn load(custom_path: Option<String>) -> error::Result<(Config, PathBuf
     }
 
     Ok((toml::from_str(&content)?, path_final))
+}
+
+// FIXME: this nukes all the comments
+/// global asynchronous function to save the config file
+pub async fn save(config_content: Config, path: PathBuf) -> error::Result<()> {
+    let mut file = fs::File::create(path).await?;
+    let content = format!("{}\n", toml::to_string(&config_content)?);
+    file.write_all(content.as_bytes()).await?;
+    Ok(())
 }
 
 fn is_empty_string(s: &str) -> bool {

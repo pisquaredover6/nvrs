@@ -27,6 +27,9 @@ pub enum Error {
     #[error("toml parsing error: {0}")]
     TOMLError(#[from] toml::de::Error),
 
+    #[error("toml parsing error: {0}")]
+    TOMLErrorSer(#[from] toml::ser::Error),
+
     // custom errors
     #[error("{0}: request status != OK\n{1}")]
     RequestNotOK(String, String),
@@ -64,6 +67,10 @@ pub enum Error {
     /// package not found in newver
     #[error("{0}: package not in newver")]
     PkgNotInNewver(String),
+
+    /// package not found in config
+    #[error("{0}: package not in config")]
+    PkgNotInConfig(String),
 
     /// source / API not found
     #[error("source {0} not found")]

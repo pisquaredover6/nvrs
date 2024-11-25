@@ -28,7 +28,7 @@ pub mod verfiles;
 /// let keyfile = keyfile::load(config.0.__config__.clone()).await.unwrap();
 ///
 /// Core {
-///     config: config.0,
+///     config,
 ///     verfiles,
 ///     client: reqwest::Client::new(),
 ///     keyfile,
@@ -36,7 +36,7 @@ pub mod verfiles;
 /// # })
 /// ```
 pub struct Core {
-    pub config: config::Config,
+    pub config: (config::Config, std::path::PathBuf),
     pub verfiles: (verfiles::Verfile, verfiles::Verfile),
     pub client: reqwest::Client,
     pub keyfile: Option<keyfile::Keyfile>,
