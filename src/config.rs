@@ -62,8 +62,50 @@ pub struct Package {
     pub prefix: String,
 }
 
-// TODO: Package defaults & tests
 impl Package {
+    pub fn new(
+        source: String,
+        target: String,
+        use_max_tag: bool,
+        prefix: String,
+    ) -> error::Result<Self> {
+        let mut package = Package::default();
+
+        match source.as_ref() {
+            "aur" => {
+                package.aur = target;
+                Ok(())
+            }
+            "github" => {
+                package.github = target;
+                Ok(())
+            }
+            "gitlab" => {
+                package.gitlab = target;
+                Ok(())
+            }
+            _ => Err(error::Error::SourceNotFound(source.clone())),
+        }?;
+
+        package.source = source;
+        package.use_max_tag = Some(use_max_tag);
+        package.prefix = prefix;
+
+        Ok(package)
+    }
+
+    fn default() -> Self {
+        Package {
+            source: String::new(),
+            host: String::new(),
+            aur: String::new(),
+            github: String::new(),
+            gitlab: String::new(),
+            use_max_tag: None,
+            prefix: String::new(),
+        }
+    }
+
     /// global function to get various API-specific agrs for a package
     ///
     /// # example
@@ -156,8 +198,24 @@ mod tests {
     async fn loading() {
         let config = load(None).await.unwrap();
 
-        // TODO: here, ref L47
-
         assert_eq!(config.1, PathBuf::from("nvrs.toml"));
+    }
+
+    #[tokio::test]
+    async fn manual_package() {
+        assert!(Package::new(
+            "non_existing_source".to_string(),
+            "non_existing".to_string(),
+            false,
+            String::new()
+        )
+        .is_err());
+        assert!(Package::new(
+            "github".to_string(),
+            "orhun/git-cliff".to_string(),
+            false,
+            "v".to_string()
+        )
+        .is_ok());
     }
 }
