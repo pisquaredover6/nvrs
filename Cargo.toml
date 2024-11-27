@@ -38,6 +38,7 @@ toml = { version = "0.8.19", features = ["parse", "display"], default-features =
 
 [dev-dependencies]
 tokio-test = "0.4.4"
+criterion = { version = "0.5.1", features = ["html_reports"] }
 
 [profile.release]
 lto = "fat"
@@ -45,3 +46,11 @@ codegen-units = 1
 panic = "abort"
 strip = true
 opt-level = "z"
+
+[profile.bench]
+opt-level = 3
+debug = false
+
+[[bench]]
+name = "nvrs_bench"
+harness = false
