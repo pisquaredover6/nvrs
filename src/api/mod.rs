@@ -34,7 +34,6 @@ pub struct Release {
 type ReleaseFuture =
     std::pin::Pin<Box<dyn std::future::Future<Output = crate::error::Result<Release>> + Send>>;
 
-#[cfg(feature = "http")]
 fn setup_headers() -> reqwest::header::HeaderMap {
     use reqwest::header::{HeaderMap, HeaderValue, USER_AGENT};
 
@@ -44,7 +43,6 @@ fn setup_headers() -> reqwest::header::HeaderMap {
     headers
 }
 
-#[cfg(feature = "http")]
 fn match_statuscode(status: &reqwest::StatusCode, package: String) -> crate::error::Result<()> {
     use crate::error;
     use reqwest::StatusCode;

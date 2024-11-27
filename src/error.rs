@@ -14,7 +14,6 @@ newver = \"newver.json\"";
 
 #[derive(Debug, ThisError)]
 pub enum Error {
-    #[cfg(feature = "http")]
     #[error("request error: {0}")]
     RequestError(#[from] reqwest::Error),
 
