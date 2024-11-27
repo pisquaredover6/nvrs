@@ -72,6 +72,7 @@ pub async fn run_source(
         let args = api::ApiArgs {
             request_client: client,
             package: package.0,
+            use_max_tag: package.1.use_max_tag,
             args: api_args,
             api_key,
         };

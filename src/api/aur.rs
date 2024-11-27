@@ -39,10 +39,11 @@ pub fn get_latest(args: api::ApiArgs) -> api::ReleaseFuture {
 async fn request_test() {
     let package = "permitter".to_string();
     let args = api::ApiArgs {
+        request_client: reqwest::Client::new(),
         package: package.clone(),
+        use_max_tag: None,
         args: vec![package],
         api_key: String::new(),
-        request_client: reqwest::Client::new(),
     };
 
     assert!(get_latest(args).await.is_ok());

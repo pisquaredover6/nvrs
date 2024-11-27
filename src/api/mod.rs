@@ -17,6 +17,7 @@ pub struct Api {
 pub struct ApiArgs {
     pub request_client: reqwest::Client,
     pub package: String,
+    pub use_max_tag: Option<bool>,
     pub args: Vec<String>,
     pub api_key: String, // empty String if none
 }

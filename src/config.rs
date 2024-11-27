@@ -56,6 +56,8 @@ pub struct Package {
     gitlab: String,
 
     #[serde(default)]
+    pub use_max_tag: Option<bool>,
+    #[serde(default)]
     #[serde(skip_serializing_if = "is_empty_string")]
     pub prefix: String,
 }
