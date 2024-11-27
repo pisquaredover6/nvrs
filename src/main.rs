@@ -208,9 +208,10 @@ async fn sync(core: Core, no_fail: bool) -> error::Result<()> {
                 }
             }
             Err(e) => {
-                pretty_error(&e);
                 if !no_fail {
                     return Err(e);
+                } else {
+                    pretty_error(&e);
                 }
             }
         };
