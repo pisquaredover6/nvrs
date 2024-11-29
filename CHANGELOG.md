@@ -2,6 +2,30 @@
 
 All notable changes to nvrs will be documented in this file.
 
+## [upstream]
+
+### 🚀 Features
+
+- `use_max_tag` functionality ([8431412](https://github.com/adamperkowski/nvrs/commit/843141248520b7a784cae15c0571cd23e68d277e))
+
+### 🐛 Bug Fixes
+
+- (*ui*) `sync` errors displayed twice when no `--no-fail` ([8d7e341](https://github.com/adamperkowski/nvrs/commit/8d7e3413e258ac1b1a38256de10f02d8f078d68d))
+- `Package` default() & new() features ([779c1ef](https://github.com/adamperkowski/nvrs/commit/779c1ef7e21c4ed6c31a524797a3f94c8678a3d5))
+
+### ⚙️ Refactoring
+
+- (*features*) remove `http` ([712bcea](https://github.com/adamperkowski/nvrs/commit/712bceae2626838af664df10dd967cb4a2819ab8))
+
+### 📚 Documentation
+
+- (*README*) add installation & usage instructions ([cd0bd72](https://github.com/adamperkowski/nvrs/commit/cd0bd7269f35ccb559f81abfda62c69ae06bce79))
+
+### 🧪 Testing
+
+- `Package` default(), new() & tests ([ca96da8](https://github.com/adamperkowski/nvrs/commit/ca96da8381da62cea1b01fd1f1d0363b7e5d1f9b))
+- add benchmarking ([#5](https://github.com/adamperkowski/nvrs/issues/5)) ([3e1ef8d](https://github.com/adamperkowski/nvrs/commit/3e1ef8dbc6030073523d332652b3200016591071))
+
 ## [0.1.4] - 2024-11-25
 
 ### 🚀 Features
