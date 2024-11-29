@@ -2,7 +2,7 @@
 
 All notable changes to nvrs will be documented in this file.
 
-## [upstream]
+## [0.1.5] - 2024-11-29
 
 ### 🚀 Features
 
