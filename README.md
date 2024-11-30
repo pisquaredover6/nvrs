@@ -3,6 +3,7 @@
 # nvrs
 🚦 fast new version checker for software releases 🦀
 
+[![Grind Compliant](https://img.shields.io/badge/Grind-Compliant-blue?style=for-the-badge&labelColor=%23a8127d&color=%23336795)](https://github.com/The-Grindhouse/guidelines)<br>
 ![Build Status](https://img.shields.io/github/actions/workflow/status/adamperkowski/nvrs/rust.yml?style=for-the-badge&labelColor=%23a8127d&color=%23336795) [![docs.rs](https://img.shields.io/docsrs/nvrs?style=for-the-badge&labelColor=%23a8127d&color=%23336795)](#documentation)<br>
 [![GitHub Contributors](https://img.shields.io/github/contributors-anon/adamperkowski/nvrs?style=for-the-badge&labelColor=%23a8127d&color=%23336795)](https://github.com/adamperkowski/nvrs/graphs/contributors) ![GitHub Repo Size](https://img.shields.io/github/repo-size/adamperkowski/nvrs?style=for-the-badge&labelColor=%23a8127d&color=%23336795) ![Repo Created At](https://img.shields.io/github/created-at/adamperkowski/nvrs?style=for-the-badge&labelColor=%23a8127d&color=%23336795)
 
