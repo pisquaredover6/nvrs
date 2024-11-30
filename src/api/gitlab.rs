@@ -8,6 +8,7 @@ struct GitLabResponse {
     tag_path: String,
 }
 
+/// get the latest version of a package from GitLab
 pub fn get_latest(args: api::ApiArgs) -> api::ReleaseFuture {
     Box::pin(async move {
         let host = if !args.args[1].is_empty() {

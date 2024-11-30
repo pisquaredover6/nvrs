@@ -12,38 +12,47 @@ const EXAMPLE_CONFIG_TABLE: &str = "example:
 oldver = \"oldver.json\"
 newver = \"newver.json\"";
 
+/// custom Error type for nvrs
 #[derive(Debug, ThisError)]
 pub enum Error {
+    /// [reqwest] errors
     #[error("request error: {0}")]
     RequestError(#[from] reqwest::Error),
 
+    /// [std::io] errors
     #[error("io error: {0}")]
     IOError(#[from] std::io::Error),
 
+    /// [serde_json] errors
     #[error("json parsing error: {0}")]
     JSONError(#[from] serde_json::Error),
 
+    /// [toml::de] errors
     #[error("toml parsing error: {0}")]
     TOMLError(#[from] toml::de::Error),
 
+    /// [toml::ser] errors
     #[error("toml parsing error: {0}")]
     TOMLErrorSer(#[from] toml::ser::Error),
 
     // custom errors
+    /// request status != OK
     #[error("{0}: request status != OK\n{1}")]
     RequestNotOK(String, String),
 
+    /// request status == 430
     #[error("{0}: request returned 430\n{RATE_LIMIT}")]
     RequestForbidden(String),
 
+    /// latest version of a package not found
     #[error("{0}: version not found")]
     NoVersion(String),
 
-    /// explicitly specified configuration file not found
+    /// specified configuration file not found
     #[error("specified config file not found")]
     NoConfigSpecified,
 
-    /// configuration file not found
+    /// configuration file not found in any of the default locations
     #[error("no config found\n{CONFIG_PATHS}\n{NOT_EMPTY}")]
     NoConfig,
 
@@ -59,7 +68,7 @@ pub enum Error {
     #[error("oldver & newver not specified\n{EXAMPLE_CONFIG_TABLE}")]
     NoXVer,
 
-    /// verfile version != 2
+    /// unsupported verfile version
     #[error("unsupported verfile version\nplease update your verfiles")]
     VerfileVer,
 
@@ -76,6 +85,7 @@ pub enum Error {
     SourceNotFound(String),
 }
 
+/// custom Result type for nvrs
 pub type Result<T> = std::result::Result<T, Error>;
 
 #[test]

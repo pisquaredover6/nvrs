@@ -12,6 +12,7 @@ struct GitHubResponse {
     html_url: String,
 }
 
+/// get the latest version of a package from GitHub
 pub fn get_latest(args: api::ApiArgs) -> api::ReleaseFuture {
     Box::pin(async move {
         let repo_url = format!("https://api.github.com/repos/{}", args.args[0]);

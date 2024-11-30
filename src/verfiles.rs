@@ -27,6 +27,7 @@ pub struct VerPackage {
     pub version: String,
     #[serde(default)]
     pub gitref: String,
+    /// url pointing to the release
     #[serde(default)]
     pub url: String,
 }

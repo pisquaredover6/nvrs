@@ -16,7 +16,9 @@ use tokio::{fs, io::AsyncWriteExt};
 /// see the [example `nvrs.toml`](https://github.com/adamperkowski/nvrs/blob/main/nvrs.toml)
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Config {
+    /// `__config__` table
     pub __config__: Option<ConfigTable>,
+    /// list of custom package tables
     #[serde(flatten)]
     pub packages: BTreeMap<String, Package>,
 }
@@ -26,8 +28,11 @@ pub struct Config {
 /// see the [example `nvrs.toml`](https://github.com/adamperkowski/nvrs/blob/main/nvrs.toml)
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct ConfigTable {
+    /// path to the `oldver` file
     pub oldver: Option<String>,
+    /// path to the `newver` file
     pub newver: Option<String>,
+    /// path to the keyfile
     pub keyfile: Option<String>,
 }
 
@@ -55,14 +60,17 @@ pub struct Package {
     #[serde(skip_serializing_if = "is_empty_string")]
     gitlab: String,
 
+    /// whether to use the latest tag instead of the latest release
     #[serde(default)]
     pub use_max_tag: Option<bool>,
+    /// prefix to add to the version name
     #[serde(default)]
     #[serde(skip_serializing_if = "is_empty_string")]
     pub prefix: String,
 }
 
 impl Package {
+    /// manually create a new package entry
     pub fn new(
         source: String,
         target: String,

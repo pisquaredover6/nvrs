@@ -16,7 +16,7 @@ pub mod error;
 pub mod keyfile;
 pub mod verfiles;
 
-/// "core" vars structure
+/// example "core" struct that holds all the necessary data for the library
 ///
 /// # example usage
 /// ```rust
@@ -36,9 +36,13 @@ pub mod verfiles;
 /// # })
 /// ```
 pub struct Core {
+    /// configuration file content and path
     pub config: (config::Config, std::path::PathBuf),
+    /// verfiles contents
     pub verfiles: (verfiles::Verfile, verfiles::Verfile),
+    /// reqwest HTTP client
     pub client: reqwest::Client,
+    /// keyfile contents
     pub keyfile: Option<keyfile::Keyfile>,
 }
 

@@ -9,15 +9,19 @@ mod gitlab;
 
 /// struct containing the API name & a pointer to API's `get_latest` function
 pub struct Api {
+    /// name of the API
     pub name: &'static str,
+    /// pointer to the API's `get_latest` function
     pub func: fn(ApiArgs) -> ReleaseFuture,
 }
 
 /// arguments passed to a source
 pub struct ApiArgs {
     pub request_client: reqwest::Client,
+    /// name of the package
     pub package: String,
     pub use_max_tag: Option<bool>,
+    /// arguments passed to the source
     pub args: Vec<String>,
     pub api_key: String, // empty String if none
 }
@@ -25,8 +29,11 @@ pub struct ApiArgs {
 /// this is what `get_latest`s return
 #[derive(Debug)]
 pub struct Release {
+    /// name of the package
     pub name: String,
+    /// version of the package
     pub tag: Option<String>,
+    /// url to the version's source
     pub url: String,
 }
 
