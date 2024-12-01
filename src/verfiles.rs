@@ -42,23 +42,21 @@ pub struct Verfile {
 
 /// load the verfiles specified in [crate::config::ConfigTable]
 pub async fn load(config_table: Option<config::ConfigTable>) -> error::Result<(Verfile, Verfile)> {
-    if config_table.is_none() {
-        return Err(error::Error::NoConfigTable);
+    let config_table = config_table.ok_or(error::Error::NoConfigTable)?;
+
+    let oldver_path = config_table.oldver.as_ref().ok_or(error::Error::NoXVer)?;
+    let newver_path = config_table.newver.as_ref().ok_or(error::Error::NoXVer)?;
+
+    let (oldver, newver) = tokio::try_join!(
+        load_file(Path::new(oldver_path)),
+        load_file(Path::new(newver_path))
+    )?;
+
+    if oldver.version != 2 || newver.version != 2 {
+        return Err(error::Error::VerfileVer);
     }
-    let config_table = config_table.unwrap();
 
-    if config_table.oldver.is_some() && config_table.newver.is_some() {
-        let oldver = load_file(Path::new(config_table.oldver.as_ref().unwrap())).await?;
-        let newver = load_file(Path::new(config_table.newver.as_ref().unwrap())).await?;
-
-        if oldver.version != 2 || newver.version != 2 {
-            return Err(error::Error::VerfileVer);
-        }
-
-        Ok((oldver, newver))
-    } else {
-        Err(error::Error::NoXVer)
-    }
+    Ok((oldver, newver))
 }
 
 /// save changes to the verfiles
@@ -67,17 +65,18 @@ pub async fn save(
     is_oldver: bool,
     config_table: Option<config::ConfigTable>,
 ) -> error::Result<()> {
-    let config_table = config_table.unwrap();
+    let config_table = config_table.ok_or(error::Error::NoConfigTable)?;
     let path = if is_oldver {
-        Path::new(config_table.oldver.as_ref().unwrap())
+        config_table.oldver.as_ref().ok_or(error::Error::NoXVer)?
     } else {
-        Path::new(config_table.newver.as_ref().unwrap())
+        config_table.newver.as_ref().ok_or(error::Error::NoXVer)?
     };
 
-    let mut file = fs::File::create(path).await?;
+    let mut file = fs::File::create(Path::new(path)).await?;
     let content = format!("{}\n", serde_json::to_string_pretty(&verfile)?);
 
-    Ok(file.write_all(content.as_bytes()).await?)
+    file.write_all(content.as_bytes()).await?;
+    Ok(())
 }
 
 async fn load_file(path: &Path) -> error::Result<Verfile> {
@@ -85,9 +84,11 @@ async fn load_file(path: &Path) -> error::Result<Verfile> {
         let mut file = fs::File::create(path).await?;
         file.write_all(TEMPLATE.as_bytes()).await?;
     }
-    let content = fs::read_to_string(path).await?;
 
-    Ok(serde_json::from_str(&content)?)
+    let content = fs::read_to_string(path).await?;
+    let verfile: Verfile = serde_json::from_str(&content)?;
+
+    Ok(verfile)
 }
 
 // TODO: tests

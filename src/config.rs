@@ -146,49 +146,39 @@ impl Package {
 
 /// global asynchronous function to load all config files
 pub async fn load(custom_path: Option<String>) -> error::Result<(Config, PathBuf)> {
-    if let Some(path) = custom_path {
-        let config_path = Path::new(&path);
-        if config_path.exists() && config_path.is_file() {
-            let content = fs::read_to_string(config_path).await?;
-            let toml_content: Config = toml::from_str(&content)?;
-
-            return Ok((toml_content, PathBuf::from(config_path)));
+    let config_path = if let Some(path) = custom_path {
+        let path = Path::new(&path);
+        if path.exists() && path.is_file() {
+            path.to_path_buf()
         } else {
             return Err(error::Error::NoConfigSpecified);
         }
-    }
-
-    let config_path = Path::new("nvrs.toml");
-    let config_home = format!(
-        "{}/nvrs.toml",
-        env::var("XDG_CONFIG_HOME").unwrap_or_else(|_| {
-            format!(
-                "{}/.config",
-                env::var("HOME").unwrap_or_else(|_| ".".to_string())
-            )
-        })
-    );
-    let config_home_path = Path::new(&config_home);
-
-    let (content, path_final) = if config_path.exists() && config_path.is_file() {
-        (
-            fs::read_to_string(config_path).await?,
-            PathBuf::from(config_path),
-        )
-    } else if config_home_path.exists() && config_home_path.is_file() {
-        (
-            fs::read_to_string(config_home_path).await?,
-            PathBuf::from(config_home_path),
-        )
     } else {
-        (String::new(), PathBuf::new())
+        let default_path = Path::new("nvrs.toml");
+        let config_home = format!(
+            "{}/nvrs.toml",
+            env::var("XDG_CONFIG_HOME").unwrap_or_else(|_| {
+                format!(
+                    "{}/.config",
+                    env::var("HOME").unwrap_or_else(|_| ".".to_string())
+                )
+            })
+        );
+        let home_path = Path::new(&config_home);
+
+        if default_path.exists() && default_path.is_file() {
+            default_path.to_path_buf()
+        } else if home_path.exists() && home_path.is_file() {
+            home_path.to_path_buf()
+        } else {
+            return Err(error::Error::NoConfig);
+        }
     };
 
-    if content.is_empty() {
-        return Err(error::Error::NoConfig);
-    }
+    let content = fs::read_to_string(&config_path).await?;
+    let toml_content: Config = toml::from_str(&content)?;
 
-    Ok((toml::from_str(&content)?, path_final))
+    Ok((toml_content, config_path))
 }
 
 // FIXME: this nukes all the comments
