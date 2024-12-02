@@ -2,6 +2,21 @@
 
 All notable changes to nvrs will be documented in this file.
 
+## [upstream]
+
+### ⚙️ Refactoring
+
+- (*verfiles, config*) saving & loading improvements ([81d7efd](https://github.com/adamperkowski/nvrs/commit/81d7efd24b9b425f59bec1cdbb588bc25ed433cb))
+
+### 📚 Documentation
+
+- more details & improvements ([9f02405](https://github.com/adamperkowski/nvrs/commit/9f02405339c3520340899313365f0de2fb3d65c5))
+
+### Other (unconventional)
+
+- _ ([42da383](https://github.com/adamperkowski/nvrs/commit/42da3838cc80f5929fb592cfa8468f166238c32f))
+- add the grind compliant badge ([3372b3e](https://github.com/adamperkowski/nvrs/commit/3372b3e7505d4854b10a63851743d54acffe1f7b))
+
 ## [0.1.5] - 2024-11-29
 
 ### 🚀 Features
