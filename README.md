@@ -64,7 +64,7 @@ makepkg -si
 [nvrs](https://crates.io/crates/nvrs) can be installed via [Cargo](https://doc.rust-lang.org/cargo) with:
 
 ```sh
-cargo install nvrs
+cargo install nvrs --all-features
 ```
 
 note that crates installed using `cargo install` require manual updating with `cargo install --force`.
