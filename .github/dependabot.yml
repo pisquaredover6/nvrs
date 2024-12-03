@@ -3,7 +3,7 @@
 version: 2
 updates:
   - package-ecosystem: "cargo"
-    directory: "/kernel"
+    directory: "/"
     schedule:
       interval: "weekly"
     assignees:
