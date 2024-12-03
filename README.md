@@ -11,12 +11,6 @@
 
 </div>
 
-## WIP
-nvrs is still a WIP<br>
-new features & bugfixes are being pushed every day
-
-you may encounter some issues. please consider [submitting feedback](https://github.com/adamperkowski/nvrs/issues/new/choose) if you do.
-
 ## Features
 ### [nvchecker](https://github.com/lilydjwg/nvchecker) compatibility
 check the [release notes](https://github.com/adamperkowski/nvrs/releases) for compatibility updates
@@ -34,6 +28,12 @@ check the [release notes](https://github.com/adamperkowski/nvrs/releases) for co
 - `aur`
 - `github`
 - `gitlab` (with custom hosts)
+
+### QOL improvements
+- `ALL` argument for the `--take` command
+- `--no-fail` flag to prevent exiting on recoverable errors
+- `--nuke` command to delete packages from all files
+- `--list-sources` command to list all available sources
 
 ## Installation
 <a href="https://repology.org/project/nvrs/versions"><img align="right" src="https://repology.org/badge/vertical-allrepos/nvrs.svg" alt="Packaging status"></a>

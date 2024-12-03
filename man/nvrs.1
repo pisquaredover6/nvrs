@@ -26,6 +26,14 @@ Comma-separated list of packages to update automatically (use `ALL` for all)
 Comma-separated list of packages to delete from the config
 
 .TP
+\fB\-\-no\-fail\fR
+Don't exit the program on recoverable errors
+
+.TP
+\fB\-\-list\-sources\fR
+List available sources
+
+.TP
 \fB\-\-config\fR \fI<path>\fR
 Override path to the config file
 Default paths:
@@ -33,10 +41,6 @@ Default paths:
     \fI~/.config/nvrs.toml\fR
 .br
     \fI./nvrs.toml\fR
-
-.TP
-\fB\-\-no\-fail\fR
-Don't exit the program on recoverable errors
 
 .TP
 \fB\-\-copyright\fR

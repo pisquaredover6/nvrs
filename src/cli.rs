@@ -39,15 +39,18 @@ pub struct Cli {
     )]
     pub nuke: Option<Vec<String>>,
 
+    #[arg(long, help = "Don't exit on recoverable errors")]
+    pub no_fail: bool,
+
+    #[arg(long, help = "List available sources")]
+    pub list_sources: bool,
+
     #[arg(
         long = "config",
         value_name = "path",
         help = "Override path to the config file"
     )]
     pub custom_config: Option<String>,
-
-    #[arg(long, help = "Don't exit on recoverable errors")]
-    pub no_fail: bool,
 
     #[arg(long, help = "Display copyright information")]
     copyright: bool,
@@ -68,6 +71,14 @@ pub fn get_args() -> Cli {
             "Copyright (c) {} Adam Perkowski\n{}",
             current_year, COPYRIGHT_TEXT
         );
+
+        std::process::exit(0);
+    } else if cli.list_sources {
+        for api in nvrs::api::API_LIST {
+            println!("{}", api.name);
+        }
+
+        std::process::exit(0);
     }
 
     cli
