@@ -187,6 +187,8 @@ pub async fn save(config_content: Config, path: PathBuf) -> error::Result<()> {
     let mut file = fs::File::create(path).await?;
     let content = format!("{}\n", toml::to_string(&config_content)?);
     file.write_all(content.as_bytes()).await?;
+    file.shutdown().await?;
+
     Ok(())
 }
 
