@@ -7,7 +7,11 @@ pub fn get_latest(args: api::ApiArgs) -> api::ReleaseFuture {
         let url = args.args[0].clone();
         let client = args.request_client;
 
-        let result = client.get(url).headers(api::setup_headers()).send().await?;
+        let result = client
+            .get(&url)
+            .headers(api::setup_headers())
+            .send()
+            .await?;
         api::match_statuscode(&result.status(), args.package.clone())?;
 
         let body = result.text().await?;
@@ -17,7 +21,7 @@ pub fn get_latest(args: api::ApiArgs) -> api::ReleaseFuture {
             Ok(api::Release {
                 name: caps.get(1).unwrap().as_str().to_owned(),
                 tag: None,
-                url: String::new(),
+                url,
             })
         } else {
             Err(error::Error::NoVersion(args.package))
