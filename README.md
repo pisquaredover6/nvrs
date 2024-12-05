@@ -139,13 +139,13 @@ package entries are custom entries in the main config file. they contain values 
 
 | name          | description                                                               | type   | required | custom |
 |---------------|---------------------------------------------------------------------------|--------|----------|--------|
-| `source`      | see [sources](#sources)                                                   | string | ✔️       | ❌      |
+| `source`      | see [sources](#sources)                                                   | string | ✔️       | ❌     |
 | source name   | the "target". eg. repo path for `github`                                  | string | ✔️       | ✔️     |
-| `host`        | domain name the source is hosted on                                       | string | ❌        | ❌      |
-| `prefix`      | the prefix used in releases / tags<br>example: `v` for tags like `v0.1.0` | string | ❌        | ❌      |
-| `use_max_tag` | use max git tag instead of the latest release                             | bool   | ❌        | ❌      |
-| `url`         | url to check for source type `regex`                                      | string | ❌        | ❌      |
-| `regex`       | regex to search url for source type `regex`                               | bool   | ❌        | ❌      |
+| `host`        | domain name the source is hosted on                                       | string | ❌       | ❌     |
+| `prefix`      | the prefix used in releases / tags<br>example: `v` for tags like `v0.1.0` | string | ❌       | ❌     |
+| `use_max_tag` | use max git tag instead of the latest release                             | bool   | ❌       | ❌     |
+| `url`         | url to check for source type `regex`                                      | string | ❌       | ❌     |
+| `regex`       | regex to search url for source type `regex`                               | bool   | ❌       | ❌     |
 
 ### Keyfile structure
 this file contains API keys for various [sources](#sources). example can be found [here](/n_keyfile.toml).
