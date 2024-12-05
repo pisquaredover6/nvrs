@@ -4,13 +4,29 @@ All notable changes to nvrs will be documented in this file.
 
 ## [upstream]
 
+### 🚀 Features
+
+- `--list-sources` command ([442c06f](https://github.com/adamperkowski/nvrs/commit/442c06f0e56f4adcc0c2ad44d042997cb088a930))
+- (*sources*) add regex ([#13](https://github.com/adamperkowski/nvrs/issues/13)) ([fa12ce9](https://github.com/adamperkowski/nvrs/commit/fa12ce9691adbdcf51990eb8416aedf4fdc7d36b))
+
+### 🐛 Bug Fixes
+
+- incorrect `--compare` colors ([ef1f78f](https://github.com/adamperkowski/nvrs/commit/ef1f78fed76f883986734b7e3220b2f56508a5f0))
+- (*io*) not shutting down file streams after writing ([a8a42fd](https://github.com/adamperkowski/nvrs/commit/a8a42fdf03bfde7aeee563fbd6f9d7af832bc70e))
+
 ### ⚙️ Refactoring
 
 - (*verfiles, config*) saving & loading improvements ([81d7efd](https://github.com/adamperkowski/nvrs/commit/81d7efd24b9b425f59bec1cdbb588bc25ed433cb))
+- split features & binaries ([4acd98e](https://github.com/adamperkowski/nvrs/commit/4acd98e5d2c5df0845c6bd512cb40f705da9361e))
 
 ### 📚 Documentation
 
 - more details & improvements ([9f02405](https://github.com/adamperkowski/nvrs/commit/9f02405339c3520340899313365f0de2fb3d65c5))
+- (*README*) update cargo install instructions ([88f0fdc](https://github.com/adamperkowski/nvrs/commit/88f0fdce435c50df44c3ae2cfd5d1087df4376fc))
+
+### ⚙️ Miscellaneous Tasks
+
+- (*repo*) fix dependabot ([432b10f](https://github.com/adamperkowski/nvrs/commit/432b10f32199ecd7a33c2d9643a5e1f512db862c))
 
 ### Other (unconventional)
 
