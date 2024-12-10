@@ -8,6 +8,7 @@ All notable changes to nvrs will be documented in this file.
 
 - `--list-sources` command ([442c06f](https://github.com/adamperkowski/nvrs/commit/442c06f0e56f4adcc0c2ad44d042997cb088a930))
 - (*sources*) add regex ([#13](https://github.com/adamperkowski/nvrs/issues/13)) ([fa12ce9](https://github.com/adamperkowski/nvrs/commit/fa12ce9691adbdcf51990eb8416aedf4fdc7d36b))
+- (*sources*) add gitea ([fa925b5](https://github.com/adamperkowski/nvrs/commit/fa925b5860d7f1ee52d34ff84257725701cc6a21))
 
 ### 🐛 Bug Fixes
 
