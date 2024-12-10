@@ -40,3 +40,9 @@ source = 'regex'
 url = 'https://www.kernel.org/'
 encoding = 'utf8'
 regex = '<td><strong>([\d.]+)</strong></td>'
+
+[libkeccak]
+source = "gitea"
+host = "codeberg.org"
+gitea = "maandree/libkeccak"
+use_max_tag = true
